@@ -2,7 +2,13 @@ from firebase_functions import https_fn
 from firebase_admin import initialize_app, firestore
 from flask import jsonify
 import google.cloud.firestore
-import random
+from google.cloud.firestore_v1.base_query import FieldFilter
+from utils.calculations import (
+    calculate_bmr,
+    calculate_normalized_protein_score,
+    calculate_nutrition_score,
+)
+import numpy as np
 
 
 app = initialize_app()
@@ -47,100 +53,176 @@ def generate_meal_plan(req: https_fn.Request) -> https_fn.Response:
         "eating_frequency": {"meals": 3, "snacks": 2},
     }
 
-    # Revised Harris-Benedict Equation
-    def calculate_bmr(details):
-        if details["gender"].lower() == "male":
-            return (
-                13.397 * details["weight"]
-                + 4.799 * details["height"]
-                - 5.677 * details["age"]
-                + 88.362
-            )
-        elif details["gender"].lower() == "female":
-            return (
-                9.247 * details["weight"]
-                + 3.098 * details["height"]
-                - 4.330 * details["age"]
-                + 447.593
-            )
-        else:
-            raise ValueError("Invalid gender")
+    activity_multiplier = {
+        "sedentary": 1.2,
+        "lightly_active": 1.375,
+        "moderately_active": 1.55,
+        "very_active": 1.725,
+        "extremely_active": 1.9,
+    }
 
     # Calculate Target Calories
-    target_calories = calculate_bmr(user_details)
-
-    # Example retrieve a meal plan
-    # Retrieve candidate recipes from Firestore based on user preferences
-
-    protein_requirements = {"normal": 7, "high": 10, "very high": 15}
-
-
-    ### WE ARE HERE 
+    target_calories = calculate_bmr(
+        user_details["gender"],
+        user_details["weight"],
+        user_details["height"],
+        user_details["age"],
+    ) * (activity_multiplier[user_details["activity_level"]] or 1.375)
+    target_breakfast_calories = target_calories * 0.2 or 500
+    target_meal_calories = target_calories * 0.3 or 750
+    target_snack_calories = target_calories * 0.1 or 250
 
     breakfast_query = (
         collection_ref.where(
-            "nutrients.kcal", "<", 600
-        )  # Adjust based on meal plan length and distribution
-        .where(
-            "nutrients.protein", ">", protein_requirements[user_details["protein"]]
-        )  # Adjust based on high protein
-        .where("ingredients", "not-in", user_details["excluded_foods"])
-        .where("ratings", ">", 3)
-        .where("subcategory", "=", "breakfast")
-    )
-
-    query = (
-        collection_ref.where(
-            "nutrients.kcal", "<", target_calories / 2
-        )  # Adjust based on meal plan length and distribution
-        .where(
-            "nutrients.protein", ">", protein_requirements[user_details["protein"]]
-        )  # Adjust based on high protein
-        .where("ingredients", "not-in", user_details["excluded_foods"])
-        .where("ratings", ">", 3)
-    )
-    # think about getting breakfast, lunch dinner and 2 snacks.
-
-    # think about food_preferences increasing the weighting of those options instead of it only being those
-    # .where('ingredients', 'array-contains-any', user_details["food_preferences"])
-
-    # think about adding target macros
-
-    candidate_recipes = [doc.to_dict() for doc in query.stream()]
-
-    # Shuffle candidate recipes for variety
-    random.shuffle(candidate_recipes)
-
-    # Accumulate Recipes until Total kcal > target_calories
-    total_kcal = 0
-    filtered_recipes = []
-
-    for recipe in candidate_recipes:
-        recipe_kcal = recipe.get("nutrients", {}).get("kcal", 0)
-        total_kcal += recipe_kcal
-        filtered_recipes.append(recipe)
-
-        if total_kcal > target_calories and len(filtered_recipes) >= (
-            user_details["eating_frequency"]["meals"]
-            + user_details["eating_frequency"]["snacks"]
-        ):
-            break
-
-    # Check if Accumulated Recipes Meet the Criteria
-    if total_kcal > target_calories and len(filtered_recipes) >= (
-        user_details["eating_frequency"]["meals"]
-        + user_details["eating_frequency"]["snacks"]
-    ):
-        print(
-            f"Found enough recipes for a day with total kcal > {target_calories}. Total kcal: {total_kcal}"
+            filter=FieldFilter("kcal", ">", target_breakfast_calories * 0.8)
         )
-        for i, recipe in enumerate(filtered_recipes):
-            print(
-                f"Recipe {i + 1}: {recipe['name']} - kcal: {recipe.get('nutrients', {}).get('kcal', 0)}"
+        .where(filter=FieldFilter("kcal", "<", target_breakfast_calories))
+        .where(
+            filter=FieldFilter("subcategory", "in", ["Breakfast", "Breakfast recipes"])
+        )
+    )
+
+    meal_query = collection_ref.where(
+        filter=FieldFilter("kcal", ">", target_meal_calories * 0.8)
+    ).where(filter=FieldFilter("kcal", "<", target_meal_calories))
+
+    snack_query = collection_ref.where(
+        filter=FieldFilter("kcal", ">", target_snack_calories * 0.3)
+    ).where(filter=FieldFilter("kcal", "<", target_snack_calories))
+
+    breakfast_documents = breakfast_query.stream()
+    meal_documents = meal_query.stream()
+    snack_documents = snack_query.stream()
+
+    breakfast_pool = [doc.to_dict() for doc in breakfast_documents]
+    meal_pool = [doc.to_dict() for doc in meal_documents]
+    snack_pool = [doc.to_dict() for doc in snack_documents]
+
+    breakfast_choice = weighted_random_choice(
+        breakfast_pool,
+        "rating",
+        user_details["food_preferences"],
+        user_details["allergies"],
+        user_details["excluded_foods"],
+        user_details["protein"],
+        1,
+    )
+    meal_choices = weighted_random_choice(
+        meal_pool,
+        "rating",
+        user_details["food_preferences"],
+        user_details["allergies"],
+        user_details["excluded_foods"],
+        user_details["protein"],
+        2,
+    )
+    snack_choices = weighted_random_choice(
+        snack_pool,
+        "rating",
+        user_details["food_preferences"],
+        user_details["allergies"],
+        user_details["excluded_foods"],
+        user_details["protein"],
+        2,
+    )
+
+    # Combine all recipe lists into one
+    all_recipes = (
+        breakfast_choice.tolist() + meal_choices.tolist() + snack_choices.tolist()
+    )
+
+    # Calculate the total kcal
+    total_kcal = sum(recipe.get("kcal", 0) for recipe in all_recipes)
+
+    print(
+        f"The combined kcal number of all recipes is: {total_kcal}. Your goal calories was {target_calories}"
+    )
+
+    return all_recipes
+
+
+def weighted_random_choice(
+    objects,
+    weight_key,
+    food_preferences,
+    allergies,
+    excluded_foods,
+    protein_requirements,
+    maxResults=3,
+):
+    try:
+        # Convert food_preferences and allergies to lowercase sets for case-insensitive matching
+        food_preferences_set = {preference.lower() for preference in food_preferences}
+        allergies_set = {allergy.lower() for allergy in allergies}
+        excluded_foods_set = {excluded_food.lower() for excluded_food in excluded_foods}
+
+        # Calculate weights and adjust based on the condition
+        weights = []
+        recipes = []
+
+        for obj in objects:
+            weight = obj.get(weight_key, 1)
+
+            # Check if any food_preference is a substring of obj.get("description")
+            description = obj.get("description", "")
+            if any(
+                preference in description.lower() for preference in food_preferences_set
+            ):
+                print("I've found a match to one of your preferences")
+                weight += 3  # Add 3 to the weight if a match is found
+
+            # Get carbs, fat, protein, fiber, saturates, kcal, sugars, salt
+            carbs = obj.get("carbs", 0)
+            fat = obj.get("fat", 0)
+            protein = obj.get("protein", 0)
+            fiber = obj.get("fibre", 0)
+            saturates = obj.get("saturates", 0)
+            kcal = obj.get("kcal", 1)
+            sugars = obj.get("sugars", 0)
+            salt = obj.get("salt", 0)
+
+            # Check normalized protein score, and add it to the weight
+            if protein_requirements == "high_protein":
+                weight += calculate_normalized_protein_score(protein, kcal)
+
+            # Check the NutriScore, normalize it and add it to the weight
+            nutrition_score = calculate_nutrition_score(
+                carbs, fat, protein, fiber, saturates, kcal, sugars, salt
             )
-    else:
-        print("Not enough recipes meet the conditions.")
+            normalized_nutrition_score = nutrition_score / 20
+            weight += normalized_nutrition_score
 
-    parsed_response = jsonify(filtered_recipes)
+            ingredients = obj.get("ingredients", [])
+            # Check if any ingredient includes any allergy as a substring
+            if any(
+                allergy in ingredient.lower()
+                for allergy in allergies_set
+                for ingredient in ingredients
+            ):
+                continue
 
-    return parsed_response
+            # Check if any ingredient includes any excluded foods as a substring
+            if any(
+                excluded_food in ingredient.lower()
+                for excluded_food in excluded_foods_set
+                for ingredient in ingredients
+            ):
+                continue
+
+            recipes.append(obj)
+            weights.append(weight)
+
+        # Normalize weights to make sure they sum up to 1
+        weights_normalized = np.array(weights) / np.sum(weights)
+        # Perform weighted random choice
+        weighted_selected_item = np.random.choice(
+            recipes, size=maxResults, replace=False, p=weights_normalized
+        )
+
+        return weighted_selected_item
+
+    except Exception as e:
+        # Handle the specific exception types you expect, log the error, or perform other actions
+        print(f"An error occurred: {str(e)}")
+        # You might want to return a default or handle the error in an appropriate way
+        return None
