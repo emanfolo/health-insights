@@ -182,7 +182,7 @@ def weighted_random_choice(
             salt = obj.get("salt", 0)
 
             # Check normalized protein score, and add it to the weight
-            if protein_requirements == "high_protein":
+            if protein_requirements == "high_protein": # Change to if goals = gain muscle or lose weight
                 weight += calculate_normalized_protein_score(protein, kcal)
 
             # Check the NutriScore, normalize it and add it to the weight
