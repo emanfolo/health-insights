@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import { Dropdown, FormCard, Input, MultiValueInput } from "../atoms";
-import { GoalOptions } from "../utils/mealplans";
+import { GoalOptions } from "../utils";
 import { useRouter } from "next/navigation";
 import { MealplanCreationParams } from "../interfaces";
+import Cookie from "js-cookie";
 
 const schema = yup.object().shape({
   food_preferences: yup.string().required(""),
@@ -15,8 +16,11 @@ export const FullPageForm = () => {
   const router = useRouter();
 
   const handleSubmit = (values: MealplanCreationParams) => {
-    localStorage.setItem("formData", JSON.stringify(values));
-    console.log("Data saved to localStorage:", values);
+    Cookie.set("mealPlanCreationParams", JSON.stringify(values), {
+      expires: 1,
+      path: "/mealplan",
+    });
+    localStorage.removeItem("formData");
     router.push("/mealplan");
   };
 
@@ -106,14 +110,14 @@ export const FullPageForm = () => {
                           labelClass="font-bold"
                         />
                         <Dropdown
-                          itemIds={["2", "3", "4"]}
+                          itemIds={["2", "3", "4"]} // Change these options? - need to make sure we meet our quota
                           name="eating_frequency.meals"
                           label="Meals"
                           className="flex flex-col gap-2"
                           labelClass="font-bold"
                         />
                         <Dropdown
-                          itemIds={["0", "1", "2", "3"]}
+                          itemIds={["0", "1", "2"]} // Change these options
                           name="eating_frequency.snacks"
                           label="Snacks"
                           className="flex flex-col gap-2"
