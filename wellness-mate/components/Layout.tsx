@@ -14,7 +14,7 @@ const Layout = ({ children, title = "This is the default title" }: Props) => (
       <meta charSet="utf-8" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>
-    <header className="px-4 lg:px-6 h-14 flex items-center">
+    <header className="px-4 lg:px-6 h-14 flex items-center fixed right-0">
       <Link className="flex items-center justify-center" href="#"></Link>
       <nav className="ml-auto flex gap-4 sm:gap-6">
         {/* Create a nav component

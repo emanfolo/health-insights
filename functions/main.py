@@ -34,7 +34,8 @@ def get_recipes(req: https_fn.Request) -> https_fn.Response:
 @https_fn.on_request()
 def generate_meal_plan(req: https_fn.Request) -> https_fn.Response:
     firestore_client: google.cloud.firestore.Client = firestore.client()
-
+    print(req.data)
+    details = req.data
     collection_ref = firestore_client.collection("recipes")
 
     # User Details
@@ -43,12 +44,12 @@ def generate_meal_plan(req: https_fn.Request) -> https_fn.Response:
         "height": 190,
         "age": 23,
         "gender": "male",
-        "activity_level": "moderately active",
+        "activity_level": "moderately_active",
         "food_preferences": ["oats", "smoothies", "chicken breast"],
         "allergies": ["nuts"],
         "mealplan_length": 1,  # in days
-        "protein": "high",
-        "goals": "lose weight",
+        # "protein": "high",
+        "goals": "lose_weight",
         "excluded_foods": ["pork", "bacon"],
         "eating_frequency": {"meals": 3, "snacks": 2},
     }
@@ -104,7 +105,7 @@ def generate_meal_plan(req: https_fn.Request) -> https_fn.Response:
         user_details["food_preferences"],
         user_details["allergies"],
         user_details["excluded_foods"],
-        user_details["protein"],
+        user_details["goals"],
         1,
     )
     meal_choices = weighted_random_choice(
@@ -113,7 +114,7 @@ def generate_meal_plan(req: https_fn.Request) -> https_fn.Response:
         user_details["food_preferences"],
         user_details["allergies"],
         user_details["excluded_foods"],
-        user_details["protein"],
+        user_details["goals"],
         2,
     )
     snack_choices = weighted_random_choice(
@@ -122,7 +123,7 @@ def generate_meal_plan(req: https_fn.Request) -> https_fn.Response:
         user_details["food_preferences"],
         user_details["allergies"],
         user_details["excluded_foods"],
-        user_details["protein"],
+        user_details["goals"],
         2,
     )
 
@@ -130,6 +131,8 @@ def generate_meal_plan(req: https_fn.Request) -> https_fn.Response:
     all_recipes = (
         breakfast_choice.tolist() + meal_choices.tolist() + snack_choices.tolist()
     )
+
+    ## Change this to an object with keys breakfast, meal, snack
 
     # Calculate the total kcal
     total_kcal = sum(recipe.get("kcal", 0) for recipe in all_recipes)
@@ -147,7 +150,7 @@ def weighted_random_choice(
     food_preferences,
     allergies,
     excluded_foods,
-    protein_requirements,
+    goals,
     maxResults=3,
 ):
     try:
@@ -171,25 +174,13 @@ def weighted_random_choice(
                 print("I've found a match to one of your preferences")
                 weight += 3  # Add 3 to the weight if a match is found
 
-            # Get carbs, fat, protein, fiber, saturates, kcal, sugars, salt
-            carbs = obj.get("carbs", 0)
-            fat = obj.get("fat", 0)
-            protein = obj.get("protein", 0)
-            fiber = obj.get("fibre", 0)
-            saturates = obj.get("saturates", 0)
-            kcal = obj.get("kcal", 1)
-            sugars = obj.get("sugars", 0)
-            salt = obj.get("salt", 0)
-
-            # Check normalized protein score, and add it to the weight
-            if protein_requirements == "high_protein": # Change to if goals = gain muscle or lose weight
-                weight += calculate_normalized_protein_score(protein, kcal)
+            # Normalize protein score, and add it to the weight
+            if goals == "gain_muscle":
+                normalized_nutrition_score = obj.get("protein_score", 0) / 20
+                weight += normalized_nutrition_score
 
             # Check the NutriScore, normalize it and add it to the weight
-            nutrition_score = calculate_nutrition_score(
-                carbs, fat, protein, fiber, saturates, kcal, sugars, salt
-            )
-            normalized_nutrition_score = nutrition_score / 20
+            normalized_nutrition_score = obj.get("nutrition_score", 0) / 20
             weight += normalized_nutrition_score
 
             ingredients = obj.get("ingredients", [])

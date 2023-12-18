@@ -3,12 +3,14 @@ import React, { useEffect } from "react";
 import { Formik, Field, Form, useFormikContext } from "formik";
 import Link from "next/link";
 import { Button, Dropdown, Input } from "../atoms";
-import { GoalOptions } from "../utils/mealplans";
+import { GoalOptions } from "../utils";
 import { useRouter } from "next/navigation";
 import { MealplanCreationParams } from "../interfaces";
 
 export const HalfPageForm = () => {
   // set type soon
+  // either set it as a cookie
+  // or set it as localStorage with a time limit
   const handleFormContinue = (values: MealplanCreationParams) => {
     localStorage.setItem("formData", JSON.stringify(values));
     console.log("Data saved to localStorage:", values);
@@ -27,7 +29,7 @@ export const HalfPageForm = () => {
             Personalize your wellness journey.
           </p>
         </div>
-        <div className="h-[400px] flex flex-col  gap-4 p-8 border rounded-lg">
+        <div className="h-[400px] flex flex-col  gap-4 p-8 border rounded-lg shadow-md">
           <Formik
             initialValues={{
               weight: undefined,
@@ -45,7 +47,6 @@ export const HalfPageForm = () => {
             onSubmit={handleFormContinue}
           >
             {({ values }) => {
-              console.log(values);
               return (
                 <Form>
                   <div className=" flex flex-col">
@@ -53,7 +54,7 @@ export const HalfPageForm = () => {
                     <Input
                       label="Enter some of your favourite foods"
                       name="food_preferences"
-                    /> 
+                    />
                   </div>
                   <div className=" flex flex-col">
                     <Dropdown
