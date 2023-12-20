@@ -1,10 +1,10 @@
-import { StackedBarChart } from "../atoms";
+import { StackedBarChart } from "../../atoms";
 import {
   Mealplan,
   MealplanDisplayProps,
   NutrientPercentages,
-} from "../interfaces";
-import { calculatePercentage, DailyRecommended } from "../utils";
+} from "../../interfaces";
+import { calculatePercentage, DailyRecommended } from "../../utils";
 
 export const TargetNutrientsTile = ({ mealplan }: MealplanDisplayProps) => {
   const transformData = (data: Mealplan): NutrientPercentages[] => {

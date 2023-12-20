@@ -1,7 +1,7 @@
 import { MealplanDisplayProps } from "../interfaces";
 import {
   TopRecipeTile,
-  RecipesTile,
+  MealplanSummaryTile,
   TargetNutrientsTile,
   MacrosBreakdownTile,
 } from "../molecules";
@@ -58,7 +58,7 @@ export const MealplanDisplay = ({ mealplan }: MealplanDisplayProps) => {
 
         <div className=" h-2/5  flex">
           <div className=" p-4 pt-0  w-3/5 h-full ">
-            <RecipesTile
+            <MealplanSummaryTile
               breakfastItem={breakfastItem}
               mealItems={mealItems}
               snackItems={snackItems}

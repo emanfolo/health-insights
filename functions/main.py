@@ -3,15 +3,43 @@ from firebase_admin import initialize_app, firestore
 from flask import jsonify
 import google.cloud.firestore
 from google.cloud.firestore_v1.base_query import FieldFilter
-from utils.calculations import (
-    calculate_bmr,
-    calculate_normalized_protein_score,
-    calculate_nutrition_score,
-)
+from utils.calculations import calculate_bmr, weighted_random_choice
 import numpy as np
+import json
 
+# import multiprocessing as mp
+
+
+# if __name__ == '__main__':
+#     mp.set_start_method('spawn')
 
 app = initialize_app()
+
+
+@https_fn.on_request()
+def get_recipe(req: https_fn.Request) -> https_fn.Response:
+    firestore_client: google.cloud.firestore.Client = firestore.client()
+
+    collection_ref = firestore_client.collection("recipes")
+
+    print("REQUEST:", req.data)
+    # print(req.id)
+
+    request_string = req.data.decode("utf-8")
+    request_json = json.loads(request_string)
+    request_id = request_json["id"]
+
+    # Query the collection and limit the result to the first 20 documents
+    query = collection_ref.where("id", "==", request_id)
+    documents = query.stream()
+
+    # Convert the documents to a list of dictionaries
+    data = [doc.to_dict() for doc in documents]
+    parsed_response = jsonify(data)
+
+    print("DOCUMENTS", documents, "DATA", data)
+
+    return {}  # parsed_response
 
 
 @https_fn.on_request()
@@ -142,78 +170,3 @@ def generate_meal_plan(req: https_fn.Request) -> https_fn.Response:
     )
 
     return all_recipes
-
-
-def weighted_random_choice(
-    objects,
-    weight_key,
-    food_preferences,
-    allergies,
-    excluded_foods,
-    goals,
-    maxResults=3,
-):
-    try:
-        # Convert food_preferences and allergies to lowercase sets for case-insensitive matching
-        food_preferences_set = {preference.lower() for preference in food_preferences}
-        allergies_set = {allergy.lower() for allergy in allergies}
-        excluded_foods_set = {excluded_food.lower() for excluded_food in excluded_foods}
-
-        # Calculate weights and adjust based on the condition
-        weights = []
-        recipes = []
-
-        for obj in objects:
-            weight = obj.get(weight_key, 1)
-
-            # Check if any food_preference is a substring of obj.get("description")
-            description = obj.get("description", "")
-            if any(
-                preference in description.lower() for preference in food_preferences_set
-            ):
-                print("I've found a match to one of your preferences")
-                weight += 3  # Add 3 to the weight if a match is found
-
-            # Normalize protein score, and add it to the weight
-            if goals == "gain_muscle":
-                normalized_nutrition_score = obj.get("protein_score", 0) / 20
-                weight += normalized_nutrition_score
-
-            # Check the NutriScore, normalize it and add it to the weight
-            normalized_nutrition_score = obj.get("nutrition_score", 0) / 20
-            weight += normalized_nutrition_score
-
-            ingredients = obj.get("ingredients", [])
-            # Check if any ingredient includes any allergy as a substring
-            if any(
-                allergy in ingredient.lower()
-                for allergy in allergies_set
-                for ingredient in ingredients
-            ):
-                continue
-
-            # Check if any ingredient includes any excluded foods as a substring
-            if any(
-                excluded_food in ingredient.lower()
-                for excluded_food in excluded_foods_set
-                for ingredient in ingredients
-            ):
-                continue
-
-            recipes.append(obj)
-            weights.append(weight)
-
-        # Normalize weights to make sure they sum up to 1
-        weights_normalized = np.array(weights) / np.sum(weights)
-        # Perform weighted random choice
-        weighted_selected_item = np.random.choice(
-            recipes, size=maxResults, replace=False, p=weights_normalized
-        )
-
-        return weighted_selected_item
-
-    except Exception as e:
-        # Handle the specific exception types you expect, log the error, or perform other actions
-        print(f"An error occurred: {str(e)}")
-        # You might want to return a default or handle the error in an appropriate way
-        return None

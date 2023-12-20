@@ -1,5 +1,5 @@
-import { GaugeChart, NutritionLabel, PieChart } from "../atoms";
-import { MacrosBreakdownTileProps } from "../interfaces";
+import { GaugeChart, NutritionLabel, PieChart } from "../../atoms";
+import { MacrosBreakdownTileProps } from "../../interfaces";
 
 export const MacrosBreakdownTile = ({
   averageNutritionalScore,

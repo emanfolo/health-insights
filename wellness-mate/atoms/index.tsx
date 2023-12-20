@@ -9,3 +9,5 @@ export * from "./NutritionLabel";
 export * from "./StackedBarChart";
 export * from "./MiniRecipeTile";
 export * from "./PieChart";
+export * from "./TextDropdown";
+export * from "./StarRating";

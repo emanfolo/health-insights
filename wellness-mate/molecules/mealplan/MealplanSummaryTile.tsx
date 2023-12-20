@@ -1,11 +1,11 @@
-import { MiniRecipeTile } from "../atoms";
-import { RecipesTileProps } from "../interfaces";
+import { MiniRecipeTile } from "../../atoms";
+import { MealplanSummaryTileProps } from "../../interfaces";
 
-export const RecipesTile = ({
+export const MealplanSummaryTile = ({
   breakfastItem,
   mealItems,
   snackItems,
-}: RecipesTileProps) => {
+}: MealplanSummaryTileProps) => {
   return (
     <div className=" border rounded-lg  h-[300px] w-full  shadow-md flex flex-col justify-between p-4  ">
       <div className=" text-xs self-end mb-2 cursor-pointer hover:text-blue-500">
