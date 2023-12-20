@@ -62,7 +62,7 @@ export const GaugeChart = ({ value, min = 0, max = 100 }) => {
       .attr("y", height - 40)
       .attr("text-anchor", "middle")
       .style("font-size", "24px")
-      .text(value);
+      .text(Math.round(value));
   }, [value, min, max]);
 
   return <div ref={gaugeRef}></div>;

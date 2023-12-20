@@ -136,7 +136,7 @@ export interface MiniRecipeTileProps {
   headline?: string;
 }
 
-export interface RecipesTileProps {
+export interface MealplanSummaryTileProps {
   breakfastItem?: Recipe;
   mealItems: Recipe[];
   snackItems: Recipe[];
@@ -160,4 +160,44 @@ export interface MacrosBreakdownTileProps {
   totalSalt: number;
   totalSaturates: number;
   totalSugars: number;
+}
+
+export interface RecipeDisplayProps {
+  recipe: Recipe;
+  recommended: MiniRecipeTileProps[];
+}
+
+export interface ImageSectionProps {
+  image: string;
+  name: string;
+  description: string;
+  rating: number;
+  voteCount: number;
+  url: string;
+}
+
+export interface InfoSectionProps {
+  difficulty: string;
+  dishType: string;
+  prepTime: string;
+  cookTime: string;
+  kcal: number;
+  sugars: number;
+  carbs: number;
+  fibre: number;
+  fat: number;
+  protein: number;
+  salt: number;
+  saturates: number;
+  nutritionalScore: number;
+  proteinScore: number;
+}
+
+export interface RecommendedSectionProps {
+  recommended: MiniRecipeTileProps[];
+}
+
+export interface FooterSectionProps {
+  steps: string[];
+  ingredients: string[];
 }

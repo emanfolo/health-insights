@@ -1,10 +1,12 @@
-import { GaugeChart, NutritionLabel } from "../atoms";
-import { TopRecipeTileProps } from "../interfaces";
+import { GaugeChart, NutritionLabel } from "../../atoms";
+import { ExternalLink } from "../../icons";
+import { TopRecipeTileProps } from "../../interfaces";
+import Link from "next/link";
 
 export const TopRecipeTile = ({
   highestNutritionalScoreObj,
 }: TopRecipeTileProps) => {
-  const { kcal, protein, salt, saturates, carbs, sugars, fat, fibre } =
+  const { kcal, protein, salt, saturates, carbs, sugars, fat, fibre, url } =
     highestNutritionalScoreObj;
   return (
     <div className=" border rounded-lg  w-full   shadow-md h-[300px] ">
@@ -40,6 +42,9 @@ export const TopRecipeTile = ({
               </>
             )}
           </div>
+          <Link href={url}>
+            <ExternalLink />
+          </Link>
         </div>
 
         <div className="">

@@ -1,5 +1,5 @@
 module.exports = {
   images: {
-    domains: ["images.immediate.co.uk"],
+    domains: ["images.immediate.co.uk"], // change to remotePatterns
   },
 };
