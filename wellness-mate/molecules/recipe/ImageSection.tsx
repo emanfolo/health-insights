@@ -28,10 +28,10 @@ export const ImageSection = ({
         <div className="text-sm mt-1">
           <text>{description}</text>
         </div>
-        <div className="flex mt-4 gap-3">
+        <div className="flex mt-4 gap-3 items-center">
           <PDFLink />
           <Link href={url} target="_blank">
-            <ExternalLink />
+            <ExternalLink size={16} />
           </Link>
           <StarRating rating={rating} voteCount={voteCount} />
         </div>

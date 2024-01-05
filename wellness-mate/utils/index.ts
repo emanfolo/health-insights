@@ -1,5 +1,24 @@
 import { Mealplan, Recipe } from "../interfaces";
 
+export * from "./schema";
+
+export const parseJSONFields = (data: Recipe, fields: string[]): Recipe => {
+  const parsedData = { ...data }; // Create a copy of the original data object
+
+  fields.forEach((fieldName) => {
+    if (parsedData[fieldName]) {
+      try {
+        parsedData[fieldName] = JSON.parse(parsedData[fieldName]);
+      } catch (error) {
+        // Handle JSON parsing errors if needed
+        console.error(`Error parsing ${fieldName}: ${error}`);
+      }
+    }
+  });
+
+  return parsedData;
+};
+
 export const GoalOptions = ["improve_health", "lose_weight", "gain_muscle"];
 
 export const calculatePercentage = (

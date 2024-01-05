@@ -1,26 +1,25 @@
 "use client";
-import React, { useEffect } from "react";
-import { Formik, Field, Form, useFormikContext } from "formik";
+import React from "react";
+import { Formik, Form } from "formik";
 import Link from "next/link";
-import { Button, Dropdown, Input } from "../atoms";
+import { Button, Dropdown, Input, MultiValueInput } from "../atoms";
 import { GoalOptions } from "../utils";
 import { useRouter } from "next/navigation";
 import { MealplanCreationParams } from "../interfaces";
 
 export const HalfPageForm = () => {
-  // set type soon
-  // either set it as a cookie
-  // or set it as localStorage with a time limit
-  const handleFormContinue = (values: MealplanCreationParams) => {
-    localStorage.setItem("formData", JSON.stringify(values));
-    console.log("Data saved to localStorage:", values);
-  };
 
   const router = useRouter();
 
+  const handleFormContinue = (values: MealplanCreationParams) => {
+    localStorage.setItem("formData", JSON.stringify(values));
+    console.log("Data saved to localStorage:", values);
+    router.push("/create");
+  };
+
   return (
-    <section className="w-1/2 my-auto">
-      <div className="flex flex-col justify-center space-y-4 p-14">
+    <section className=" my-auto lg:w-1/2">
+      <div className="p-8 flex flex-col justify-center gap-4 lg:p-14">
         <div className="space-y-2">
           <h1 className="text-6xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
             Welcome to WellnessMate.
@@ -29,13 +28,13 @@ export const HalfPageForm = () => {
             Personalize your wellness journey.
           </p>
         </div>
-        <div className="h-[400px] flex flex-col  gap-4 p-8 border rounded-lg shadow-md">
+        <div className=" flex flex-col p-8 border rounded-lg shadow-md">
           <Formik
             initialValues={{
               weight: undefined,
               height: undefined,
               age: undefined,
-              gender: undefined,
+              gender: "male",
               activity_level: undefined,
               food_preferences: [],
               allergies: [],
@@ -48,12 +47,13 @@ export const HalfPageForm = () => {
           >
             {({ values }) => {
               return (
-                <Form>
+                <Form className="flex flex-col gap-4">
                   <div className=" flex flex-col">
-                    {/* Change to multi input */}
-                    <Input
-                      label="Enter some of your favourite foods"
+                    <MultiValueInput
+                      label="Enter up to five of your favourite foods"
                       name="food_preferences"
+                      className=""
+                      values={values.food_preferences}
                     />
                   </div>
                   <div className=" flex flex-col">
@@ -92,9 +92,9 @@ export const HalfPageForm = () => {
 
                   <div>
                     <Button
-                      type="submit"
+                      type="button"
                       text="Create a mealplan"
-                      onClick={() => router.push("/create")}
+                      onClick={() => handleFormContinue(values)}
                     />
                   </div>
                 </Form>

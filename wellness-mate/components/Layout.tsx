@@ -7,31 +7,34 @@ type Props = {
   title?: string;
 };
 
-const Layout = ({ children, title = "This is the default title" }: Props) => (
+export const Layout = ({
+  children,
+  title = "This is the default title",
+}: Props) => (
   <div>
     <Head>
       <title>{title}</title>
       <meta charSet="utf-8" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>
-    <header className="px-4 lg:px-6 h-14 flex items-center fixed right-0">
+    <header className="px-4 lg:px-6 h-14 flex items-center right-0">
       <Link className="flex items-center justify-center" href="#"></Link>
-      <nav className="ml-auto flex gap-4 sm:gap-6">
-        {/* Create a nav component
-            That is not rendered on the server
-            That updates based on the page we're on, this will be what holds all cta's 
-          */}
-        <Link href="/">Home</Link>
-        <Link href="/recipes">Browse recipes</Link>
-        <Link href="/about">About</Link>
+      <nav className=" text-xs ml-auto flex gap-4 sm:gap-6 sm:text-base">
+        <Link className="text-black hover:text-blue-700" href="/">
+          Home
+        </Link>
+        <Link className="text-black hover:text-blue-700" href="/example">
+          Example Mealplan
+        </Link>
+
+        <Link className="text-black hover:text-blue-700" href="/create">
+          Generate Mealplan
+        </Link>
+        <Link className="text-black hover:text-blue-700" href="/explore">
+          Recipes
+        </Link>
       </nav>
     </header>
     {children}
-    {/* <footer>
-      <hr />
-      <span>I'm here to stay (Footer)</span>
-    </footer> */}
   </div>
 );
-
-export default Layout;

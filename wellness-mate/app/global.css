@@ -135,3 +135,19 @@ img {
     transform: rotate(360deg);
   }
 }
+
+.range-input {
+  display: flex;
+  align-items: center;
+  padding: 3px;
+}
+
+.range-input input[type="range"] {
+  width: 100%;
+}
+
+.range-value {
+  text-align: center;
+  width: 100%;
+  font-weight: bold;
+}

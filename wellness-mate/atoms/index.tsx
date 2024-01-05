@@ -11,3 +11,5 @@ export * from "./MiniRecipeTile";
 export * from "./PieChart";
 export * from "./TextDropdown";
 export * from "./StarRating";
+export * from "./RangeInput";
+export * from "./ToggleSwitch";

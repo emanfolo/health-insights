@@ -18,6 +18,7 @@ export const Dropdown = ({
   itemIds,
   className,
   name,
+  disabled,
 }: DropdownProps) => {
   const [field, meta] = useField(name);
 
@@ -31,6 +32,7 @@ export const Dropdown = ({
       </label>
       <select
         {...field}
+        disabled={disabled}
         id={name}
         className="mt-1 block w-full h-[40px] p-2  rounded-lg text-base border sm:text-sm "
       >

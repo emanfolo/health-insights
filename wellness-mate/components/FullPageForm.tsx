@@ -1,37 +1,47 @@
 import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
-import { Dropdown, FormCard, Input, MultiValueInput } from "../atoms";
-import { GoalOptions } from "../utils";
+import {
+  Dropdown,
+  FormCard,
+  Input,
+  MultiValueInput,
+  ToggleSwitch,
+} from "../atoms";
+import { GoalOptions, schema } from "../utils";
 import { useRouter } from "next/navigation";
 import { MealplanCreationParams } from "../interfaces";
 import Cookie from "js-cookie";
-
-const schema = yup.object().shape({
-  food_preferences: yup.string().required(""),
-  // email: yup.string().email().required(),
-});
+import { ToggleOn } from "../icons";
 
 export const FullPageForm = () => {
   const router = useRouter();
 
+  // Move schema here and make it conditional
+
   const handleSubmit = (values: MealplanCreationParams) => {
-    Cookie.set("mealPlanCreationParams", JSON.stringify(values), {
-      expires: 1,
-      path: "/mealplan",
-    });
-    localStorage.removeItem("formData");
-    router.push("/mealplan");
+
+    console.log("im hit")
+
+      // Remove existing cookie
+      Cookie.remove("mealPlanCreationParams");
+  
+      // Set the cookie and wait for it to be set
+       Cookie.set("mealPlanCreationParams", JSON.stringify(values), {
+        expires: 1,
+        path: "/mealplan",
+        callback: () => {
+          localStorage.removeItem("formData");
+          router.push("/mealplan");
+        }
+      });
+  
+
+
   };
 
-  /*  
-                            Next page is second half of the form, with an option to skip any or all questions 
-                            You can disable whole sections with a switch button. the switch will be a circle 
-                            Either like the bluetooth on the mac navbar. Bluetooth for sections, 
-                            Or like turning off an iphone? but smaller Iphone for navbar 
-                        
-                        */
-
+  const [includeHealthData, setIncludeHealthData] = useState(true);
+  const [includeHealthGoals, setIncludeHealthGoals] = useState(true);
   const [initialValues, setInitialValues] = useState({
     weight: undefined,
     height: undefined,
@@ -41,8 +51,7 @@ export const FullPageForm = () => {
     food_preferences: [],
     allergies: [],
     mealplan_length: 1,
-    protein: "medium",
-    goals: "improve_health",
+    goals: undefined,
     excluded_foods: [],
     eating_frequency: { breakfast: "Yes", meals: "3", snacks: "1" },
   });
@@ -65,19 +74,42 @@ export const FullPageForm = () => {
   }
 
   return (
-    <div className=" flex">
-      <Formik initialValues={initialValues} onSubmit={() => {}}>
-        {({ values }) => {
-          // console.log(values);
+    <div className=" flex flex-col lg:flex-row">
+      <Formik
+        initialValues={initialValues}
+        onSubmit={ (values: MealplanCreationParams) => {
+          console.log("im hit");
+          const formData = { ...values };
+          if (!includeHealthData) {
+            delete formData.height;
+            delete formData.age;
+            delete formData.weight;
+            delete formData.gender;
+          }
+          if (!includeHealthGoals) {
+            delete formData.goals;
+            delete formData.activity_level;
+          }
+          handleSubmit(formData);
+          console.log(formData);
+        }}
+        validationSchema={schema}
+      >
+        {({ values, errors, touched }) => {
+          // console.log(errors);
           return (
             <>
-              <div className="w-1/2 p-8">
-                <Form className="flex flex-col gap-10">
+              <div className="p-8 lg:w-1/2">
+                <Form className="flex flex-col gap-8">
                   <FormCard>
-                    <text className=" text-2xl font-bold">
-                      Food Preferences
-                    </text>
-
+                    <div className="flex items-center justify-between">
+                      <text className=" text-2xl font-bold">
+                        Food Preferences
+                      </text>
+                      <div className="text-red-500 flex flex-col items-end text-xs">
+                        <ToggleOn /> Required{" "}
+                      </div>
+                    </div>
                     <MultiValueInput
                       label="Enter up to five of your favourite foods"
                       name="food_preferences"
@@ -99,6 +131,9 @@ export const FullPageForm = () => {
                       values={values.allergies}
                     />
 
+                    {Object.keys(schema).map((field) => (
+                      <ErrorMessage name={field} />
+                    ))}
                     <div>
                       <label>Select your preferred eating pattern</label>
                       <div className="flex gap-8 mt-2">
@@ -128,43 +163,66 @@ export const FullPageForm = () => {
                   </FormCard>
 
                   <FormCard>
-                    <text className=" text-2xl font-bold">
-                      Basic Health Data
-                    </text>
+                    <div className="flex items-center justify-between">
+                      <text className=" text-2xl font-bold">
+                        Basic Health Data
+                      </text>
+                      <div className="flex flex-col text-xs items-end">
+                        <ToggleSwitch
+                          boolean={includeHealthData}
+                          setBoolean={setIncludeHealthData}
+                        />
+                        {includeHealthData ? "Enabled" : "Disabled"}
+                      </div>
+                    </div>
                     <Input
                       label="Height (cm)"
                       name="height"
                       type="number"
                       className="mt-2 h-[40px]"
+                      disabled={!includeHealthData}
                     />
                     <Input
                       label="Weight (kg)"
                       name="weight"
                       type="number"
                       className="mt-2 h-[40px]"
+                      disabled={!includeHealthData}
                     />
                     <Input
                       label="Age"
                       name="age"
                       type="number"
                       className="mt-2 h-[40px]"
+                      disabled={!includeHealthData}
                     />
                     <Dropdown
-                      itemIds={["male", "female", "non-binary"]}
+                      itemIds={["male", "female", "other"]}
                       label="Gender"
                       name="gender"
                       className="flex flex-col gap-2"
+                      disabled={!includeHealthData}
                     />
                   </FormCard>
 
                   <FormCard>
-                    <text className=" text-2xl font-bold">Health Goals</text>
+                    <div className="flex items-center justify-between">
+                      <text className=" text-2xl font-bold">Health Goals</text>
+                      <div className="flex flex-col text-xs items-end">
+                        <ToggleSwitch
+                          boolean={includeHealthGoals}
+                          setBoolean={setIncludeHealthGoals}
+                        />
+                        {includeHealthGoals ? "Enabled" : "Disabled"}
+                      </div>
+                    </div>{" "}
                     <div className=" flex flex-col">
                       <Dropdown
                         itemIds={GoalOptions}
                         name="goals"
                         label="Select your health goals"
                         className="flex flex-col gap-2"
+                        disabled={!includeHealthGoals}
                       />
                     </div>
                     <div className=" flex flex-col">
@@ -179,26 +237,28 @@ export const FullPageForm = () => {
                         name="activity_level"
                         label="Select your activity level"
                         className="flex flex-col gap-2"
+                        disabled={!includeHealthGoals}
                       />
                     </div>
                   </FormCard>
-                </Form>
-              </div>
-              <div className="w-1/2 p-8">
-                <div className="fixed flex flex-col">
-                  <button
-                    className="border rounded-lg"
-                    onClick={() => handleSubmit(values)}
-                  >
-                    Submit
-                  </button>
-                  <text>
+                  <div className=" lg:w-1/2 lg:fixed lg:right-0">
+                    <div className=" flex flex-col items-center">
+                      <button
+                        type="submit"
+                        className="border rounded-lg w-fit px-5 py-1"
+                        // onClick={() => handleSubmit(values)}
+                      >
+                        Submit
+                      </button>
+                      {/* <text>
                     Current estimated TDEE basic breakdown/estimated
                     calories/macros target
                   </text>
                   <text>x% more likely to get food containing x</text>
-                  <text>will not receive food containing x or x</text>
-                </div>
+                  <text>will not receive food containing x or x</text> */}
+                    </div>
+                  </div>
+                </Form>
               </div>
             </>
           );

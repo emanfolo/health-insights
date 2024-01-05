@@ -1,5 +1,13 @@
 import numpy as np
 
+activity_multiplier = {
+    "sedentary": 1.2,
+    "lightly_active": 1.375,
+    "moderately_active": 1.55,
+    "very_active": 1.725,
+    "extremely_active": 1.9,
+}
+
 
 def calculate_normalized_protein_score(protein, kcal):
     optimal_protein_ratio = 0.3

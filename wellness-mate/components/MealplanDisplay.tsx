@@ -35,8 +35,11 @@ export const MealplanDisplay = ({ mealplan }: MealplanDisplayProps) => {
   return (
     <div>
       <div className="w-screen h-full">
-        <div className="   h-3/5 flex pt-10">
-          <div className=" p-4   w-6/12 h-[430px] ">
+        <text className="flex justify-center text-4xl font-semibold">
+          Mealplan Breakdown
+        </text>
+        <div className="   h-3/5 flex  flex-col lg:flex-row">
+          <div className=" p-4   min-h-[830px]  md:min-h-[430px] ">
             <MacrosBreakdownTile
               totalCalories={totalCalories}
               totalSugars={totalSugars}
@@ -51,20 +54,20 @@ export const MealplanDisplay = ({ mealplan }: MealplanDisplayProps) => {
             />
           </div>
 
-          <div className="p-4 w-6/12 h-[430px] ">
+          <div className="p-4 h-[430px] md:h-[465px] lg:w-6/12  ">
             <TargetNutrientsTile mealplan={mealplan} />
           </div>
         </div>
 
-        <div className=" h-2/5  flex">
-          <div className=" p-4 pt-0  w-3/5 h-full ">
+        <div className="   flex-col flex  lg:flex-row">
+          <div className=" p-4 pt-0  lg:w-5/12  ">
             <MealplanSummaryTile
               breakfastItem={breakfastItem}
               mealItems={mealItems}
               snackItems={snackItems}
             />
           </div>
-          <div className=" p-4 pt-0 w-2/5 h-full ">
+          <div className=" p-4 pt-0 lg:w-7/12 h-full ">
             {highestNutritionalScoreObj && (
               <TopRecipeTile
                 highestNutritionalScoreObj={highestNutritionalScoreObj}

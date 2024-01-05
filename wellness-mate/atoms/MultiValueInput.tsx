@@ -64,6 +64,7 @@ export const MultiValueInput = ({
                 maxLength={12}
               />
               <button
+                type="button"
                 disabled={disabled}
                 className="border rounded-br-lg  rounded-tr-lg px-2 h-[40px] w-1/5 "
                 onClick={() => {
