@@ -12,7 +12,7 @@ export const NutritionLabel = ({
   sugars,
 }: NutritionalLabelProps) => {
   return (
-    <div className="bg-white p-4 w-72 border rounded-lg  text-xs">
+    <div className="bg-white p-4 w-57 sm:w-96 md:w-72 border rounded-lg  text-xs flex flex-col min-w-fit">
       <div className="flex justify-between mb-2">
         <p className="font-bold">Calories</p>
         <p className="font-bold">{kcal}</p>
@@ -29,7 +29,7 @@ export const NutritionLabel = ({
       <hr className="border-black mb-2" />
       <div className="flex justify-between mb-2">
         <p className="font-bold">Salt</p>
-        <p className="font-bold">{salt}g</p>
+        <p className="font-bold">{Math.round(salt)}g</p>
         <p className="font-bold">
           {calculatePercentage(salt, DailyRecommended["salt"])}%
         </p>

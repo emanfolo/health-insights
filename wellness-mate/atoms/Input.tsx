@@ -7,6 +7,7 @@ export const Input = ({
   name,
   className,
   type = "text",
+  disabled,
 }: InputProps) => {
   const [field, meta] = useField(name);
   return (
@@ -23,6 +24,7 @@ export const Input = ({
         placeholder={placeholder}
         className={`border rounded-lg p-1.5 ${className}`}
         type={type}
+        disabled={disabled}
       />
       {meta.touched && meta.error ? (
         <div className="error">{meta.error}</div>

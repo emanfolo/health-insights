@@ -1,15 +1,14 @@
-import Link from "next/link";
-import Layout from "../components/Layout";
-import { Example, HalfPageForm } from "../components";
+import { Example, HalfPageForm, Layout } from "../components";
 import "../app/global.css";
+import mealplan from "../utils/mealplanExample.json";
 
 const IndexPage = () => (
   <Layout title="WellnessMate - Homepage">
     <div>
-      <div className=" flex flex-col min-h-screen">
-        <main className="flex">
+      <div className=" flex flex-col pb-4 md:p-0">
+        <main className=" flex flex-col lg:flex-row">
           <HalfPageForm />
-          <Example />
+          <Example mealplan={mealplan} />
         </main>
       </div>
     </div>

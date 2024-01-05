@@ -7,7 +7,7 @@ export interface ButtonProps {
   onClick: () => void;
   text: string;
   className?: string;
-  type?: "submit";
+  type?: "submit" | "button";
 }
 
 export interface InputProps {
@@ -16,6 +16,7 @@ export interface InputProps {
   name: string;
   className?: string;
   type?: "text" | "number";
+  disabled?: boolean;
 }
 
 export interface MultiInputProps extends InputProps {
@@ -34,6 +35,7 @@ export interface DropdownProps {
   name: string;
   className?: string;
   labelClass?: string;
+  disabled?: boolean;
 }
 
 // change these to their options
@@ -134,6 +136,12 @@ export interface MiniRecipeTileProps {
   name: string;
   image: string;
   headline?: string;
+  id: string;
+}
+
+export interface RecipeRecommendationProps {
+  recipe: Recipe;
+  recommendations: Recipe[];
 }
 
 export interface MealplanSummaryTileProps {
@@ -200,4 +208,8 @@ export interface RecommendedSectionProps {
 export interface FooterSectionProps {
   steps: string[];
   ingredients: string[];
+}
+
+export interface ExploreDisplayProps {
+  recipes: Recipe[];
 }

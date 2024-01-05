@@ -33,8 +33,8 @@ export const RecipeDisplay = ({ recipe, recommended }: RecipeDisplayProps) => {
 
   return (
     <div className="flex flex-col py-20 px-10  w-screen min-h-screen items-center">
-      <div className="w-full  h-full  flex justify-between gap-7 ">
-        <div className="w-3/4 flex border rounded-lg p-7  gap-7">
+      <div className="w-full  h-full  flex flex-col justify-between gap-7 md:flex-row ">
+        <div className=" lg:w-3/4 flex flex-col md:flex-row border rounded-lg p-5 md:p-7  gap-7 shadow-lg">
           <ImageSection
             name={name}
             description={description}
@@ -60,9 +60,11 @@ export const RecipeDisplay = ({ recipe, recommended }: RecipeDisplayProps) => {
             proteinScore={protein_score}
           />
         </div>
-        <RecommendedSection recommended={recommended} />
       </div>
       <FooterSection steps={steps} ingredients={ingredients} />
+      <div className=" lg:right-0 lg:absolute">
+        <RecommendedSection recommended={recommended} />
+      </div>
     </div>
   );
 };

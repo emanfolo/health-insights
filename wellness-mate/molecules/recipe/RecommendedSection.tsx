@@ -7,15 +7,18 @@ export const RecommendedSection = ({
   return (
     <>
       {/* // Similar recipes */}
-      <div className="w-1/4   flex-col flex items-center ">
+      <div className=" lg:w-1/4   flex-col flex items-center ">
         <text className=" font-bold">Similar recipes</text>
-        {recommended.map((value, index) => (
-          <MiniRecipeTile
-            key={`${value.name}-${index}`}
-            name={value.name}
-            image={value.image}
-          />
-        ))}
+        <div className="flex flex-col sm:flex-row lg:flex-col gap-4">
+          {recommended.map((value, index) => (
+            <MiniRecipeTile
+              key={`${value.name}-${index}`}
+              name={value.name}
+              image={value.image}
+              id={value.id}
+            />
+          ))}
+        </div>
       </div>
     </>
   );
