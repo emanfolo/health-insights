@@ -20,7 +20,7 @@ export const HalfPageForm = () => {
     <section className=" my-auto lg:w-1/2">
       <div className="p-8 flex flex-col justify-center gap-4 lg:p-14">
         <div className="space-y-2">
-          <h1 className="text-6xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+          <h1 className=" text-2xl  font-bold tracking-tighter sm:text-4xl md:text-5xl">
             Welcome to WellnessMate.
           </h1>
           <p className="max-w-[500px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
