@@ -8,7 +8,6 @@ export const MiniRecipeTile = ({
   headline,
   id,
 }: MiniRecipeTileProps) => {
-  console.log(id);
   return (
     <Link href={`/recipe/${id}`} target="_blank">
       <div className="flex flex-col h-[230px] ">

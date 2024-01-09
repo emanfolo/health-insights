@@ -24,8 +24,8 @@ export const InfoSection = ({
         <div className="text-xs flex flex-col gap-3 ">
           <text>Difficulty: {difficulty}</text>
           <text>Category: {dishType}</text>
-          <text>Prep Time: {prepTime}</text>
-          <text>Cook Time: {cookTime}</text>
+          <text>Prep Time: {prepTime} mins</text>
+          <text>Cook Time: {cookTime} mins</text>
         </div>
 
         {/* // Nutrition section */}

@@ -1,51 +1,37 @@
 import "../app/global.css";
-import { MealplanCreationParams, Recipe } from "../interfaces";
 import { MealplanDisplay, Layout } from "../components";
-const Mealplan = ({ mealplan }) => {
+import { useEffect, useState } from "react";
+import Link from "next/link";
+const Mealplan = () => {
+  const [mealplan, setMealplan] = useState(null);
+
+  useEffect(() => {
+    // Get data from local storage
+    const localStorageData = localStorage.getItem("generatedMealplan");
+
+    if (localStorageData) {
+      // Data exists in local storage, parse and set it
+      const parsedMealplan = JSON.parse(localStorageData);
+      setMealplan(parsedMealplan);
+    }
+  }, []);
+
   return (
-    <Layout title="WellnessMate - Create a mealplan">
+    <Layout title="WellnessMate - View a mealplan">
       <div>
-        <MealplanDisplay mealplan={mealplan} />
+        {mealplan ? (
+          <MealplanDisplay mealplan={mealplan} />
+        ) : (
+          <div className="flex w-screen justify-center h-[calc(100vh-63px)] items-center">
+            <p>
+              No mealplan has been created, please go to{" "}
+              <Link href={"/create"}>generate</Link> to create a mealplan
+            </p>
+          </div>
+        )}
       </div>
     </Layout>
   );
 };
 
 export default Mealplan;
-
-export const getServerSideProps = async (context) => {
-  const { req } = context;
-  const { cookies } = req;
-  const rawData = cookies.mealPlanCreationParams;
-  console.log("RAW DATA=", rawData);
-  const data: MealplanCreationParams = rawData ? JSON.parse(rawData) : null;
-  const requestUrl = "http://127.0.0.1:5000/mealplan";
-  console.log(JSON.stringify({ userDetails: data }));
-  try {
-    const res = await fetch(requestUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userDetails: data }),
-    });
-    if (!res.ok) {
-      throw new Error(`Error: ${res.status}`);
-    }
-
-    const json = await res.json();
-    console.log(json);
-    return { props: { mealplan: json } };
-  } catch (error) {
-    console.error("Error calling API:", error);
-    const errorMessage = "error";
-    console.log("ERROR", error);
-
-    return {
-      redirect: {
-        destination: "/error",
-        permanent: false,
-      },
-    };
-  }
-};

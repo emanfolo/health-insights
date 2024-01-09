@@ -90,8 +90,8 @@ export type Recipe = {
   nutritional_score: number;
   protein_score: number;
   times: {
-    Cooking: string;
-    Preparation: string;
+    Cooking: number;
+    Preparation: number;
   };
 };
 
@@ -187,8 +187,8 @@ export interface ImageSectionProps {
 export interface InfoSectionProps {
   difficulty: string;
   dishType: string;
-  prepTime: string;
-  cookTime: string;
+  prepTime: number;
+  cookTime: number;
   kcal: number;
   sugars: number;
   carbs: number;

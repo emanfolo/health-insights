@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { MealplanCreationParams } from "../interfaces";
 
 export const HalfPageForm = () => {
-
   const router = useRouter();
 
   const handleFormContinue = (values: MealplanCreationParams) => {
@@ -31,11 +30,11 @@ export const HalfPageForm = () => {
         <div className=" flex flex-col p-8 border rounded-lg shadow-md">
           <Formik
             initialValues={{
-              weight: undefined,
-              height: undefined,
-              age: undefined,
+              weight: 70,
+              height: 175,
+              age: 45,
               gender: "male",
-              activity_level: undefined,
+              activity_level: "sedentary",
               food_preferences: [],
               allergies: [],
               mealplan_length: 1,
@@ -67,7 +66,7 @@ export const HalfPageForm = () => {
                     <label>Select your preferred eating pattern</label>
                     <div className="flex gap-4 mt-2">
                       <Dropdown
-                        itemIds={["Yes", "Skip"]}
+                        itemIds={["Yes", "No"]}
                         name="eating_frequency.breakfast"
                         label="Breakfast"
                         className=""

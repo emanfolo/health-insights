@@ -29,7 +29,7 @@ export const ImageSection = ({
           <text>{description}</text>
         </div>
         <div className="flex mt-4 gap-3 items-center">
-          <PDFLink />
+          {/* <PDFLink /> */}
           <Link href={url} target="_blank">
             <ExternalLink size={16} />
           </Link>
