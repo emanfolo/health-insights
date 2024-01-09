@@ -1,6 +1,9 @@
 import { Example, HalfPageForm, Layout } from "../components";
 import "../app/global.css";
 import mealplan from "../utils/mealplanExample.json";
+import { apiUrl } from "../utils";
+
+console.log(apiUrl)
 
 const IndexPage = () => (
   <Layout title="WellnessMate - Homepage">
