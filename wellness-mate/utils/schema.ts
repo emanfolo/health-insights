@@ -13,17 +13,13 @@ export const schema = Yup.object().shape({
     "extremely_active",
   ]),
   food_preferences: Yup.array()
-  .of(Yup.string())
-  .test(
-    "maxItems",
-    "Maximum of five preferences allowed",
-    (value) => (value ? value.length <= 5 : true)
-  )
-  .test(
-    "minItems",
-    "At least one preference is required",
-    (value) => (value ? value.length >= 1 : false)
-  ),
+    .of(Yup.string())
+    .test("maxItems", "Maximum of five preferences allowed", (value) =>
+      value ? value.length <= 5 : true,
+    )
+    .test("minItems", "At least one preference is required", (value) =>
+      value ? value.length >= 1 : false,
+    ),
   allergies: Yup.array().of(Yup.string()),
   mealplan_length: Yup.number().min(1).max(7),
   goals: Yup.string().oneOf(["improve_health", "lose_weight", "gain_muscle"]),

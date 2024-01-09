@@ -5,12 +5,12 @@ import {
   RecipeRecommendationProps,
 } from "../../interfaces";
 import "../../app/global.css";
+import { apiUrl } from "../../utils";
 
 const RecipePage = ({ recipeRecommendation }) => {
   const recommended: MiniRecipeTileProps[] =
     recipeRecommendation.recommendations;
   const recipe: Recipe = recipeRecommendation.recipe;
-  console.log(recommended);
 
   return (
     <Layout>
@@ -24,7 +24,7 @@ const RecipePage = ({ recipeRecommendation }) => {
 export default RecipePage;
 
 export const getServerSideProps = async (context) => {
-  const requestUrl = "http://127.0.0.1:5000/recipe";
+  const requestUrl = `${apiUrl}/recipe`;
   const { id } = context.params;
 
   try {
@@ -39,7 +39,6 @@ export const getServerSideProps = async (context) => {
       throw new Error(`Error: ${res.status}`);
     }
     const recipeData: RecipeRecommendationProps = await res.json();
-    console.log(recipeData);
     return { props: { recipeRecommendation: recipeData } };
   } catch (error) {
     console.error("Error calling API:", error);

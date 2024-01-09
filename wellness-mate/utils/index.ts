@@ -1,5 +1,4 @@
 import { Mealplan, Recipe } from "../interfaces";
-
 export * from "./schema";
 
 export const parseJSONFields = (data: Recipe, fields: string[]): Recipe => {
@@ -109,3 +108,8 @@ export const extractStats = (mealplan: Mealplan) => {
     totalSaturates,
   };
 };
+
+export const apiUrl =
+  process.env.NODE_ENV === "production"
+    ? process.env.API_URL
+    : "http://127.0.0.1:5000";
