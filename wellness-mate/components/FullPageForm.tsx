@@ -9,7 +9,7 @@ import {
   MultiValueInput,
   ToggleSwitch,
 } from "../atoms";
-import { GoalOptions, schema } from "../utils";
+import { GoalOptions, apiUrl, schema } from "../utils";
 import { useRouter } from "next/router";
 import { MealplanCreationParams } from "../interfaces";
 import Cookie from "js-cookie";
@@ -39,10 +39,6 @@ export const FullPageForm = () => {
 
   const generateMealPlan = async (values: MealplanCreationParams) => {
     try {
-      const apiUrl =
-        process.env.NODE_ENV === "production"
-          ? process.env.API_URL
-          : "http://127.0.0.1:5000";
       const requestUrl = `${apiUrl}/mealplan`;
       const res = await fetch(requestUrl, {
         method: "POST",
