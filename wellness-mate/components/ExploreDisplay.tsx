@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { LoadingSpinner, MiniRecipeTile, RangeInput } from "../atoms";
 import { ExploreDisplayProps, Recipe } from "../interfaces";
 import { debounce } from "lodash";
+import { apiUrl } from "../utils";
 
 export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
   const [data, setData] = useState(recipes);
@@ -14,10 +15,6 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
   const [nutriScoreBoundary, setNutriScoreBoundary] = useState(70);
 
   const fetchData = async () => {
-    const apiUrl =
-      process.env.NODE_ENV === "production"
-        ? process.env.API_URL
-        : "http://127.0.0.1:5000";
     const requestUrl = `${apiUrl}/search`;
 
     const res = await fetch(requestUrl, {
