@@ -41,7 +41,7 @@
       ],
       "nutritional_score": 86,
       "author": "Claire Thomson",
-      "times": { "Cooking": "35 mins", "Preparation": "7 mins" }
+      "times": { "Cooking": 35, "Preparation": 7 }
     }
   ],
   "meals": [
@@ -95,7 +95,7 @@
       ],
       "nutritional_score": 71,
       "author": "Ailsa Burt",
-      "times": { "Cooking": "20 mins", "Preparation": "20 mins" }
+      "times": { "Cooking": 20, "Preparation": 20 }
     },
     {
       "fat": 42.0,
@@ -141,7 +141,7 @@
       ],
       "nutritional_score": 78,
       "author": "Good Food team",
-      "times": { "Cooking": "30 mins", "Preparation": "25 mins - 35 mins" }
+      "times": { "Cooking": 30, "Preparation": 25 }
     }
   ],
   "snacks": [
@@ -186,7 +186,7 @@
       ],
       "nutritional_score": 77,
       "author": "Cassie Best",
-      "times": { "Cooking": "40 mins", "Preparation": "20 mins" }
+      "times": { "Cooking": 40, "Preparation": 20 }
     },
     {
       "fat": 17.0,
@@ -229,7 +229,7 @@
       ],
       "nutritional_score": 70,
       "author": "Good Food team",
-      "times": { "Cooking": "10 mins", "Preparation": "20 mins" }
+      "times": { "Cooking": 10, "Preparation": 20 }
     }
   ]
 }
