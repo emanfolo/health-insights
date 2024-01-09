@@ -111,5 +111,5 @@ export const extractStats = (mealplan: Mealplan) => {
 
 export const apiUrl =
   process.env.NODE_ENV === "production"
-    ? process.env.API_URL
+    ? "healthinsightsapi-j5gebvjw.b4a.run"
     : "http://127.0.0.1:5000";
