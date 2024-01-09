@@ -5,6 +5,7 @@ import { apiUrl } from "../utils";
 
 console.log(apiUrl)
 console.log(process.env.NODE_ENV)
+console.log(process.env.API_URL)
 
 const IndexPage = () => (
   <Layout title="WellnessMate - Homepage">
