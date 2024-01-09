@@ -16,7 +16,6 @@ export const Layout = ({
       <title>{title}</title>
       <meta charSet="utf-8" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: http://206.189.122.226:80;" />
     </Head>
     <header className="px-4 lg:px-6 h-14 flex items-center right-0">
       <Link className="flex items-center justify-center" href="#"></Link>
