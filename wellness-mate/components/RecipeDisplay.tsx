@@ -32,7 +32,9 @@ export const RecipeDisplay = ({ recipe, recommended }: RecipeDisplayProps) => {
   } = recipe;
 
   return (
-    <div className="flex flex-col py-20 px-10  w-screen min-h-screen items-center">
+    <div className="flex flex-col py-10 px-10  w-screen min-h-screen items-center">
+      <text className="font-bold text-2xl p-3">{name}</text>
+
       <div className="w-full  h-full  flex flex-col justify-between gap-7 md:flex-row ">
         <div className=" lg:w-3/4 flex flex-col md:flex-row border rounded-lg p-5 md:p-7  gap-7 shadow-lg bg-white">
           <ImageSection
