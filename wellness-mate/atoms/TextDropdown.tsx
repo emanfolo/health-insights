@@ -17,7 +17,7 @@ export const TextDropdown = ({ title, children, className }) => {
       </div>
 
       {isOpen && (
-        <div className="flex flex-col p-2 mt-2 border rounded-lg ">
+        <div className="flex flex-col p-2 mt-2 border rounded-lg bg-white ">
           {children}
         </div>
       )}
