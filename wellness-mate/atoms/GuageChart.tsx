@@ -1,8 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
+import { valueToColor } from "../utils";
 
 export const GaugeChart = ({ value, min = 0, max = 100 }) => {
   const gaugeRef = useRef<HTMLDivElement>(null);
+  const colorCode = valueToColor(value);
 
   useEffect(() => {
     if (!gaugeRef.current) return;
@@ -51,7 +53,7 @@ export const GaugeChart = ({ value, min = 0, max = 100 }) => {
     svg
       .append("path")
       .datum({ endAngle: scale(value) })
-      .style("fill", "#007bff")
+      .style("fill", colorCode)
       .attr("d", arc)
       .attr("transform", `translate(${width / 2}, ${height - margin.bottom})`);
 

@@ -1,27 +1,32 @@
 import Link from "next/link";
 import { MiniRecipeTileProps } from "../interfaces";
 import Image from "next/image";
-
 export const MiniRecipeTile = ({
   name,
   image,
   headline,
   id,
+  kcal,
 }: MiniRecipeTileProps) => {
   return (
-    <Link href={`/recipe/${id}`} target="_blank">
-      <div className="flex flex-col h-[230px] ">
-        <text className="font-bold h-[30px]"> {headline}</text>
-        <div className=" h-[200px] w-[200px] cursor-pointer border rounded-lg shadow-lg flex flex-col p-3 items-center justify-center hover:shadow-md gap-3  ">
-          <text className="  text-xs  text-center text-black">{name}</text>
-          <div>
+    <Link href={`/recipe/${id}`} target="_blank" className="hover:no-underline">
+      <div className="flex flex-col  ">
+        <div className="font-bold min-h-[30px]"> {headline}</div>
+        <div className=" h-[250px] w-[250px] cursor-pointer border rounded-lg shadow-lg flex flex-col p-3 items-center justify-center hover:shadow-md gap-3 bg-white ">
+          <text className="h-[30px] font-semibold  text-xs  text-center text-black">
+            {name}
+          </text>
+          <div className="">
             <Image
               src={image}
-              height={150}
-              width={150}
+              height={180}
+              width={180}
               alt={`image of ${name}`}
               className="border rounded-lg"
             />
+          </div>
+          <div className="text-xs text-black flex flex-col">
+            <text className="font-semibold">{kcal} kcal</text>
           </div>
         </div>
       </div>

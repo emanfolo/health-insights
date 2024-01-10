@@ -12,7 +12,7 @@ export const NutritionLabel = ({
   sugars,
 }: NutritionalLabelProps) => {
   return (
-    <div className="bg-white p-4 w-57 sm:w-96 md:w-72 border rounded-lg  text-xs flex flex-col min-w-fit">
+    <div className="bg-white p-4 w-60 sm:w-96 md:w-72 border rounded-lg  text-xs flex flex-col min-w-fit">
       <div className="flex justify-between mb-2">
         <p className="font-bold">Calories</p>
         <p className="font-bold">{kcal}</p>

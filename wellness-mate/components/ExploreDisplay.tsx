@@ -67,7 +67,7 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
       {loading ? (
         <LoadingSpinner />
       ) : (
-        <div className="h-[200px] mt-5 flex flex-col items-center">
+        <div className=" mt-5 flex flex-col items-center">
           <div className="flex gap-3">
             <input
               className=" w-[300px] md:w-[500px] border rounded-lg h-[30px]"
@@ -150,6 +150,7 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
                     image={recipe.image}
                     key={recipe.name}
                     id={recipe.id}
+                    kcal={recipe.kcal}
                   />
                 ))}
                 {data.length === 0 && (

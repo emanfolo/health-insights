@@ -6,7 +6,9 @@ import { apiUrl } from "../utils";
 const Explore = ({ recipes }) => {
   return (
     <Layout title="WellnessMate - View Recipes">
-      <div className="flex justify-center text-xl ">Explore Recipes</div>
+      <div className="flex justify-center text-xl font-semibold md:text-3xl ">
+        Explore Recipes
+      </div>
       <ExploreDisplay recipes={recipes} />
     </Layout>
   );

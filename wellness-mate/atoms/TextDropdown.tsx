@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { DownArrow } from "../icons";
 
-export const TextDropdown = ({ title, children }) => {
+export const TextDropdown = ({ title, children, className }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   return (
-    <div>
+    <div className={className}>
       <div
         onClick={toggleDropdown}
         className="flex items-center gap-1 cursor-pointer w-fit"

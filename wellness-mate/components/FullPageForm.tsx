@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Form, ErrorMessage } from "formik";
-import * as yup from "yup";
+import * as Yup from "yup";
 import {
   Dropdown,
   FormCard,
@@ -9,7 +9,7 @@ import {
   MultiValueInput,
   ToggleSwitch,
 } from "../atoms";
-import { GoalOptions, apiUrl, schema } from "../utils";
+import { GoalOptions, apiUrl, createSchema } from "../utils";
 import { useRouter } from "next/router";
 import { MealplanCreationParams } from "../interfaces";
 import Cookie from "js-cookie";
@@ -19,6 +19,7 @@ export const FullPageForm = () => {
   const router = useRouter();
   const [includeHealthData, setIncludeHealthData] = useState(true);
   const [includeHealthGoals, setIncludeHealthGoals] = useState(true);
+  const [validationSchema, setValidationSchema] = useState(Yup.object());
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [initialValues, setInitialValues] = useState({
@@ -35,7 +36,10 @@ export const FullPageForm = () => {
     eating_frequency: { breakfast: "Yes", meals: "3", snacks: "1" },
   });
 
-  // Move schema here and make it conditional
+  useEffect(() => {
+    const schema = createSchema(includeHealthData, includeHealthGoals);
+    setValidationSchema(schema);
+  }, [includeHealthData, includeHealthGoals]);
 
   const generateMealPlan = async (values: MealplanCreationParams) => {
     try {
@@ -107,10 +111,9 @@ export const FullPageForm = () => {
           }
           await handleSubmit(formData);
         }}
-        validationSchema={schema}
+        validationSchema={validationSchema}
       >
         {({ values, errors, touched }) => {
-          console.log(values);
           return (
             <>
               {loading ? (
@@ -123,7 +126,7 @@ export const FullPageForm = () => {
                         <text className=" text-2xl font-bold">
                           Food Preferences
                         </text>
-                        <div className="text-red-500 flex flex-col items-end text-xs">
+                        <div className="text-red-500 flex flex-col items-end text-xs opacity-50">
                           <ToggleOn /> Required{" "}
                         </div>
                       </div>
@@ -134,7 +137,10 @@ export const FullPageForm = () => {
                         values={values.food_preferences}
                       />
 
-                      <ErrorMessage name="food_preferences" />
+                      <ErrorMessage
+                        className="text-red-500"
+                        name="food_preferences"
+                      />
 
                       <MultiValueInput
                         label="Enter any excluded foods"
@@ -150,8 +156,8 @@ export const FullPageForm = () => {
                         values={values.allergies}
                       />
 
-                      {Object.keys(schema).map((field) => (
-                        <ErrorMessage name={field} />
+                      {Object.keys(validationSchema).map((field) => (
+                        <ErrorMessage className="text-red-500" name={field} />
                       ))}
                       <div>
                         <label>Select your preferred eating pattern</label>
@@ -266,11 +272,12 @@ export const FullPageForm = () => {
                       <div className=" flex flex-col items-center">
                         <button
                           type="submit"
-                          className="border rounded-lg w-fit px-5 py-1"
+                          className="border rounded-lg w-fit px-5 py-1 bg-black text-white"
                           // onClick={() => handleSubmit(values)}
                         >
                           Submit
                         </button>
+
                         {/* <text>
                     Current estimated TDEE basic breakdown/estimated
                     calories/macros target

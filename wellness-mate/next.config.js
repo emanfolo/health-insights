@@ -1,5 +1,12 @@
 module.exports = {
   images: {
-    domains: ["images.immediate.co.uk"], // change to remotePatterns
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.immediate.co.uk",
+        port: "",
+        pathname: "/**",
+      },
+    ],
   },
 };
