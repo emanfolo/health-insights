@@ -137,6 +137,7 @@ export interface MiniRecipeTileProps {
   image: string;
   headline?: string;
   id: string;
+  kcal: number;
 }
 
 export interface RecipeRecommendationProps {
@@ -148,6 +149,7 @@ export interface MealplanSummaryTileProps {
   breakfastItem?: Recipe;
   mealItems: Recipe[];
   snackItems: Recipe[];
+  nutritionalSummary: NutritionalSummary;
 }
 
 export interface PieChartProps {
@@ -157,7 +159,7 @@ export interface PieChartProps {
   }[];
 }
 
-export interface MacrosBreakdownTileProps {
+export type NutritionalSummary = {
   averageNutritionalScore: number;
   averageProteinScore: number;
   totalCalories: number;
@@ -168,7 +170,7 @@ export interface MacrosBreakdownTileProps {
   totalSalt: number;
   totalSaturates: number;
   totalSugars: number;
-}
+};
 
 export interface RecipeDisplayProps {
   recipe: Recipe;

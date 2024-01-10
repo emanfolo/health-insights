@@ -11,7 +11,7 @@ export const Layout = ({
   children,
   title = "This is the default title",
 }: Props) => (
-  <div>
+  <div className=" bg-slate-100">
     <Head>
       <title>{title}</title>
       <meta charSet="utf-8" />
@@ -19,16 +19,16 @@ export const Layout = ({
     </Head>
     <header className="px-4 lg:px-6 h-14 flex items-center right-0">
       <Link className="flex items-center justify-center" href="#"></Link>
-      <nav className=" text-xs ml-auto flex gap-4 sm:gap-6 sm:text-base">
+      <nav className=" font-bold text-sm ml-auto flex gap-4 sm:gap-6 sm:text-base">
         <Link className="text-black hover:text-blue-700" href="/">
           Home
         </Link>
         <Link className="text-black hover:text-blue-700" href="/example">
-          Example Mealplan
+          Example
         </Link>
 
         <Link className="text-black hover:text-blue-700" href="/create">
-          Generate Mealplan
+          Create
         </Link>
         <Link className="text-black hover:text-blue-700" href="/explore">
           Recipes

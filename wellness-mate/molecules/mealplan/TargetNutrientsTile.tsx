@@ -45,7 +45,7 @@ export const TargetNutrientsTile = ({ mealplan }: MealplanDisplayProps) => {
   const keys = Object.keys(transformedData[0]).filter((key) => key !== "name");
 
   return (
-    <div className=" border rounded-lg  h-full  shadow-md flex flex-col justify-between p-4">
+    <div className=" border rounded-lg  h-full  shadow-md flex flex-col justify-between p-4 bg-white">
       <text className="font-medium text-sm">
         Nutritional breakdown as a % of target daily nutrients at 2000 kcal
       </text>

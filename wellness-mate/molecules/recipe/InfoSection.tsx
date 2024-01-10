@@ -21,7 +21,7 @@ export const InfoSection = ({
     <>
       {/* // Info section */}
       <div className="md:p-5 gap-5 flex flex-col">
-        <div className="text-xs flex flex-col gap-3 ">
+        <div className="text-xs flex flex-col gap-3 font-semibold ">
           <text>Difficulty: {difficulty}</text>
           <text>Category: {dishType}</text>
           <text>Prep Time: {prepTime} mins</text>
@@ -30,7 +30,7 @@ export const InfoSection = ({
 
         {/* // Nutrition section */}
         <div className="flex flex-col gap-5">
-          <div className=" flex flex-col justify-between gap-3">
+          <div className=" flex flex-col justify-between items-center gap-3">
             <text className="font-medium text-sm">Nutritional label</text>
             <NutritionLabel
               kcal={kcal}
@@ -43,7 +43,7 @@ export const InfoSection = ({
               saturates={saturates}
             />
           </div>
-          <div className="flex flex-col md:flex-row justify-between gap-3">
+          <div className="flex flex-col sm:flex-row sm:justify-evenly gap-3">
             <div className="flex flex-col justify-center items-center gap-2">
               <text className="font-medium text-sm">Nutri score</text>
               <GaugeChart value={nutritionalScore} />

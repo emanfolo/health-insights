@@ -113,3 +113,25 @@ export const apiUrl =
   process.env.NODE_ENV === "production"
     ? "https://health-insights-backend.onrender.com"
     : "http://127.0.0.1:5000";
+
+export const valueToColor = (
+  value: number,
+  minValue: number = 0,
+  maxValue: number = 100,
+): string => {
+  // Normalize the value to a 0-100 scale
+  let normalizedValue = (100 * (value - minValue)) / (maxValue - minValue);
+
+  // Assign colors based on the normalized value
+  if (normalizedValue <= 60) {
+    return "#FF0000"; // Red
+  } else if (normalizedValue <= 75) {
+    return "#FFA500"; // Orange
+  } else if (normalizedValue <= 80) {
+    return "#FFFF00"; // Yellow
+  } else if (normalizedValue <= 90) {
+    return "#008000"; // Green
+  } else {
+    return "#006400"; // Dark Green
+  }
+};
