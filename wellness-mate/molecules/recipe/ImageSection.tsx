@@ -15,8 +15,6 @@ export const ImageSection = ({
     <>
       {/* //Image section */}
       <div className=" max-w-[500px]">
-        <text className="font-bold">{name}</text>
-
         <div className="rounded-lg overflow-hidden mt-1">
           <Image
             src={image}
