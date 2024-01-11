@@ -11,7 +11,7 @@ export const Layout = ({
   children,
   title = "This is the default title",
 }: Props) => (
-  <div className=" bg-slate-100">
+  <div className=" bg-slate-100 min-h-screen">
     <Head>
       <title>{title}</title>
       <meta charSet="utf-8" />
