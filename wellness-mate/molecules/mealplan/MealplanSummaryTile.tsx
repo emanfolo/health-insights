@@ -22,7 +22,7 @@ export const MealplanSummaryTile = ({
   return (
     <div className=" border rounded-lg w-full  shadow-md flex flex-col justify-between p-4 bg-white ">
       <div className=" text-xs self-end mb-2 cursor-pointe font-semibold">
-        <text>PDF Summary and Instructions </text>
+        <text>Summary </text>
       </div>
       <div className="flex">
         <div className=" pr-3 hidden sm:flex  sticky flex-col gap-3  ml-auto">
