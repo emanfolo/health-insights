@@ -17,7 +17,7 @@ const Mealplan = () => {
   }, []);
 
   return (
-    <Layout title="WellnessMate - View a mealplan">
+    <Layout title="WellnessMate - View your mealplan">
       <div>
         {mealplan ? (
           <MealplanDisplay mealplan={mealplan} />

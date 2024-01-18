@@ -13,7 +13,7 @@ const RecipePage = ({ recipeRecommendation }) => {
   const recipe: Recipe = recipeRecommendation.recipe;
 
   return (
-    <Layout>
+    <Layout title="WellnessMate - Explore Recipes">
       <div>
         <RecipeDisplay recipe={recipe} recommended={recommended} />
       </div>

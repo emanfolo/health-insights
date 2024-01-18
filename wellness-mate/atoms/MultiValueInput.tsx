@@ -36,6 +36,7 @@ export const MultiValueInput = ({
 }: MultiInputProps) => {
   const [inputValue, setInputValue] = useState("");
   const disabled = values.length > 4;
+  const buttonDisabled = inputValue.length === 0;
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -65,7 +66,7 @@ export const MultiValueInput = ({
               />
               <button
                 type="button"
-                disabled={disabled}
+                disabled={disabled || buttonDisabled}
                 className="border rounded-br-lg  rounded-tr-lg px-2 h-[40px] w-1/5 "
                 onClick={() => {
                   push(inputValue);
@@ -76,7 +77,7 @@ export const MultiValueInput = ({
               </button>
             </div>
 
-            <div className="mt-3 flex gap-3">
+            <div className="mt-3 flex gap-3 flex-wrap">
               {values.length > 0 &&
                 values.map((value, index) => (
                   <InputBadge

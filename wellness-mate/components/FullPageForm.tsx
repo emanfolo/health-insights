@@ -269,11 +269,32 @@ export const FullPageForm = () => {
                       </div>
                     </FormCard>
                     <div className=" lg:w-1/2 lg:fixed lg:right-0">
-                      <div className=" flex flex-col items-center">
+                      <div className=" flex flex-col items-center gap-10">
+                        <div className="flex flex-col gap-4 w-full px-5 text-xl font-semibold">
+                          {values.food_preferences.length > 0 && (
+                            <text>
+                              30% more likely to get recipes containing:{" "}
+                              {values.food_preferences.join(", ")}
+                            </text>
+                          )}
+
+                          {values.excluded_foods.length > 0 && (
+                            <text>
+                              You will not recieves recipes containing:{" "}
+                              {values.excluded_foods.join(", ")}
+                            </text>
+                          )}
+
+                          {values.allergies.length > 0 && (
+                            <text>
+                              You will not recieves recipes containing the
+                              allergens: {values.allergies.join(", ")}
+                            </text>
+                          )}
+                        </div>
                         <button
                           type="submit"
                           className="border rounded-lg w-fit px-5 py-1 bg-black text-white"
-                          // onClick={() => handleSubmit(values)}
                         >
                           Submit
                         </button>

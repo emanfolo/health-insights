@@ -3,8 +3,10 @@ import "../app/global.css";
 
 const Error = () => {
   return (
-    <Layout title="Error">
-      <div>This is an error page</div>
+    <Layout title="WellnessMate - Error">
+      <div className="flex h-[calc(100vh-63px)] w-screen justify-center items-center font-semibold text-3xl">
+        We've encountered an error, please try again later
+      </div>
     </Layout>
   );
 };

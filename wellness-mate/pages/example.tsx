@@ -5,7 +5,7 @@ import "../app/global.css";
 const Example = () => {
   return (
     <>
-      <Layout title="WellnessMate - Create a mealplan">
+      <Layout title="WellnessMate - Example mealplan">
         <div>
           <MealplanDisplay mealplan={mealplan} />
         </div>
