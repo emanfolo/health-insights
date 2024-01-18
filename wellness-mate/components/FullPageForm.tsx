@@ -69,7 +69,6 @@ export const FullPageForm = () => {
       await generateMealPlan(values);
       localStorage.removeItem("formData");
       router.push("/mealplan");
-      setLoading(false);
     } catch (error) {
       console.error("Error in handleSubmit:", error);
       setLoading(false);
