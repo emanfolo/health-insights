@@ -89,7 +89,7 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
                 maxValue={800}
                 value={calorieBoundary}
                 setValue={setCalorieBoundary}
-                className="range"
+                className="range range-xs"
                 suffix={""}
               />
             </div>
@@ -101,7 +101,7 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
                 maxValue={50}
                 value={proteinBoundary}
                 setValue={setProteinBoundary}
-                className="range"
+                className="range range-xs"
                 suffix={"g"}
               />
             </div>
@@ -113,7 +113,7 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
                 maxValue={100}
                 value={nutriScoreBoundary}
                 setValue={setNutriScoreBoundary}
-                className="text-xs range"
+                className="text-xs range range-xs"
                 suffix={""}
               />
             </div>
@@ -125,7 +125,7 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
                 maxValue={100}
                 value={cookTimeBoundary}
                 setValue={setCookTimeBoundary}
-                className=" range"
+                className=" range range-xs"
                 suffix={"mins"}
               />
             </div>
@@ -137,7 +137,7 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
                 maxValue={100}
                 value={prepTimeBoundary}
                 setValue={setPrepTimeBoundary}
-                className=" range"
+                className=" range range-xs"
                 suffix={"mins"}
               />
             </div>

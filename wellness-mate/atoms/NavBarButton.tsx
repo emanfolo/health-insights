@@ -1,3 +1,4 @@
+import { GithubIcon } from "../icons";
 import { NavbarButtonProps } from "../interfaces";
 
 export const NavBarButton = ({
@@ -8,7 +9,7 @@ export const NavBarButton = ({
   onLogout,
 }: NavbarButtonProps) => {
   return (
-    <div className="navbar-end">
+    <div className="navbar-end mt-3">
       {loggedIn ? (
         <div className="dropdown dropdown-end">
           <div
@@ -38,9 +39,16 @@ export const NavBarButton = ({
           </ul>
         </div>
       ) : (
-        <button onClick={onLogin} className="btn">
-          Sign In With Github
-        </button>
+        <>
+          <button onClick={onLogin} className="btn-circle btn md:hidden">
+            <GithubIcon />
+          </button>
+          <button onClick={onLogin} className="btn hidden  md:flex">
+            <GithubIcon />
+
+            <text className="">Sign In With Github</text>
+          </button>
+        </>
       )}
     </div>
   );
