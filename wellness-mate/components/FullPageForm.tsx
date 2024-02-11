@@ -9,11 +9,9 @@ import {
   MultiValueInput,
   ToggleSwitch,
 } from "../atoms";
-import { GoalOptions, apiUrl, createSchema } from "../utils";
+import { GoalOptions, recipeApiUrl, createSchema } from "../utils";
 import { useRouter } from "next/router";
 import { MealplanCreationParams } from "../interfaces";
-import Cookie from "js-cookie";
-import { ToggleOn } from "../icons";
 
 export const FullPageForm = () => {
   const router = useRouter();
@@ -43,7 +41,7 @@ export const FullPageForm = () => {
 
   const generateMealPlan = async (values: MealplanCreationParams) => {
     try {
-      const requestUrl = `${apiUrl}/mealplan`;
+      const requestUrl = `${recipeApiUrl}/mealplan`;
       const res = await fetch(requestUrl, {
         method: "POST",
         headers: {
@@ -93,7 +91,7 @@ export const FullPageForm = () => {
   }
 
   return (
-    <div className=" flex flex-col lg:flex-row">
+    <div className=" flex flex-col ">
       <Formik
         initialValues={initialValues}
         onSubmit={async (values: MealplanCreationParams) => {
@@ -118,15 +116,33 @@ export const FullPageForm = () => {
               {loading ? (
                 <LoadingSpinner />
               ) : (
-                <div className="p-8 lg:w-1/2">
-                  <Form className="flex flex-col gap-8">
+                <div className="p-8  ">
+                  <Form className="flex flex-col gap-8  lg:px-40">
+                    <div>
+                      <h1 className="text-5xl font-bold">
+                        Generate a Mealplan
+                      </h1>
+                      <p className="py-6">
+                        Discover recipes tailored to your taste and health goals
+                        with our flexible search. Our advanced nutritional
+                        algorithm curates a selection of healthy recipes that
+                        align perfectly with your objectives. Start with as much
+                        or as little information as you like.
+                      </p>
+                    </div>
                     <FormCard>
                       <div className="flex items-center justify-between">
                         <text className=" text-2xl font-bold">
                           Food Preferences
                         </text>
                         <div className="text-red-500 flex flex-col items-end text-xs opacity-50">
-                          <ToggleOn /> Required{" "}
+                          <input
+                            type="checkbox"
+                            className="toggle"
+                            disabled
+                            checked
+                          />{" "}
+                          Required{" "}
                         </div>
                       </div>
                       <MultiValueInput
@@ -267,44 +283,13 @@ export const FullPageForm = () => {
                         />
                       </div>
                     </FormCard>
-                    <div className=" lg:w-1/2 lg:fixed lg:right-0">
-                      <div className=" flex flex-col items-center gap-10">
-                        <div className="flex flex-col gap-4 w-full px-5 text-xl font-semibold">
-                          {values.food_preferences.length > 0 && (
-                            <text>
-                              30% more likely to get recipes containing:{" "}
-                              {values.food_preferences.join(", ")}
-                            </text>
-                          )}
-
-                          {values.excluded_foods.length > 0 && (
-                            <text>
-                              You will not recieves recipes containing:{" "}
-                              {values.excluded_foods.join(", ")}
-                            </text>
-                          )}
-
-                          {values.allergies.length > 0 && (
-                            <text>
-                              You will not recieves recipes containing the
-                              allergens: {values.allergies.join(", ")}
-                            </text>
-                          )}
-                        </div>
-                        <button
-                          type="submit"
-                          className="border rounded-lg w-fit px-5 py-1 bg-black text-white"
-                        >
-                          Submit
-                        </button>
-
-                        {/* <text>
-                    Current estimated TDEE basic breakdown/estimated
-                    calories/macros target
-                  </text>
-                  <text>x% more likely to get food containing x</text>
-                  <text>will not receive food containing x or x</text> */}
-                      </div>
+                    <div className=" justify-center flex ">
+                      <button
+                        type="submit"
+                        className="border rounded-lg w-fit px-5 py-1 bg-black text-white"
+                      >
+                        Submit
+                      </button>
                     </div>
                   </Form>
                 </div>

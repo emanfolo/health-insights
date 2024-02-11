@@ -18,7 +18,7 @@ const CrossIcon = () => (
 );
 
 const InputBadge = ({ value, remove }: InputBadgeProps) => (
-  <div className=" h-8 min-w-12 flex p-2 border rounded-lg justify-center items-center gap-3">
+  <div className=" h-8 min-w-12 flex p-2 border rounded-lg justify-center items-center gap-3 bg-base-100">
     <text className="">{value}</text>
     <div onClick={remove} className=" cursor-pointer">
       <CrossIcon />
@@ -67,7 +67,7 @@ export const MultiValueInput = ({
               <button
                 type="button"
                 disabled={disabled || buttonDisabled}
-                className="border rounded-br-lg  rounded-tr-lg px-2 h-[40px] w-1/5 "
+                className="border rounded-br-lg  rounded-tr-lg px-2 h-[40px] w-1/5 bg-base-100"
                 onClick={() => {
                   push(inputValue);
                   setInputValue("");

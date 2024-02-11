@@ -4,8 +4,7 @@ import {
   Recipe,
   RecipeRecommendationProps,
 } from "../../interfaces";
-import "../../app/global.css";
-import { apiUrl } from "../../utils";
+import { recipeApiUrl } from "../../utils";
 
 const RecipePage = ({ recipeRecommendation }) => {
   const recommended: MiniRecipeTileProps[] =
@@ -24,7 +23,7 @@ const RecipePage = ({ recipeRecommendation }) => {
 export default RecipePage;
 
 export const getServerSideProps = async (context) => {
-  const requestUrl = `${apiUrl}/recipe`;
+  const requestUrl = `${recipeApiUrl}/recipe`;
   const { id } = context.params;
 
   try {

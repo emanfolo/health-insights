@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
-import { LoadingSpinner, MiniRecipeTile, RangeInput } from "../atoms";
+import {
+  LoadingSpinner,
+  MiniRecipeCard,
+  MiniRecipeTile,
+  Pagination,
+  RangeInput,
+} from "../atoms";
 import { ExploreDisplayProps, Recipe } from "../interfaces";
 import { debounce } from "lodash";
-import { apiUrl } from "../utils";
+import { recipeApiUrl } from "../utils";
 
 export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
   const [data, setData] = useState(recipes);
@@ -15,7 +21,7 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
   const [nutriScoreBoundary, setNutriScoreBoundary] = useState(70);
 
   const fetchData = async () => {
-    const requestUrl = `${apiUrl}/search`;
+    const requestUrl = `${recipeApiUrl}/search`;
 
     const res = await fetch(requestUrl, {
       method: "POST",
@@ -36,7 +42,6 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
       throw new Error(`Error: ${res.status}`);
     }
     const recipes: Recipe[] = await res.json();
-    console.log(data);
     setData(recipes);
   };
 
@@ -84,7 +89,7 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
                 maxValue={800}
                 value={calorieBoundary}
                 setValue={setCalorieBoundary}
-                className=""
+                className="range"
                 suffix={""}
               />
             </div>
@@ -96,7 +101,7 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
                 maxValue={50}
                 value={proteinBoundary}
                 setValue={setProteinBoundary}
-                className=""
+                className="range"
                 suffix={"g"}
               />
             </div>
@@ -108,7 +113,7 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
                 maxValue={100}
                 value={nutriScoreBoundary}
                 setValue={setNutriScoreBoundary}
-                className="text-xs"
+                className="text-xs range"
                 suffix={""}
               />
             </div>
@@ -120,7 +125,7 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
                 maxValue={100}
                 value={cookTimeBoundary}
                 setValue={setCookTimeBoundary}
-                className=""
+                className=" range"
                 suffix={"mins"}
               />
             </div>
@@ -132,25 +137,25 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
                 maxValue={100}
                 value={prepTimeBoundary}
                 setValue={setPrepTimeBoundary}
-                className=""
+                className=" range"
                 suffix={"mins"}
               />
             </div>
           </div>
 
           <div>
-            <text className="flex justify-center text-xl font-semibold">
-              Results
-            </text>
             <div className="flex justify-center items-center">
-              <div className=" w-fit flex flex-wrap justify-center gap-4 pb-4">
+              <div className=" w-fit flex flex-wrap justify-center gap-4 py-4">
                 {data.map((recipe) => (
-                  <MiniRecipeTile
+                  <MiniRecipeCard
                     name={recipe.name}
                     image={recipe.image}
                     key={recipe.name}
                     id={recipe.id}
                     kcal={recipe.kcal}
+                    description={recipe.description}
+                    nutriScore={recipe.nutritional_score}
+                    proteinScore={recipe.protein_score}
                   />
                 ))}
                 {data.length === 0 && (
@@ -160,6 +165,7 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
                 )}
               </div>
             </div>
+            {/* <Pagination /> */}
           </div>
         </div>
       )}

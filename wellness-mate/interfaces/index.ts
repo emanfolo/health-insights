@@ -136,6 +136,9 @@ export interface MiniRecipeTileProps {
   name: string;
   image: string;
   headline?: string;
+  description?: string;
+  nutriScore?: number;
+  proteinScore?: number;
   id: string;
   kcal: number;
 }
@@ -214,4 +217,11 @@ export interface FooterSectionProps {
 
 export interface ExploreDisplayProps {
   recipes: Recipe[];
+}
+export interface NavbarButtonProps {
+  loggedIn: boolean;
+  displayName: string | null;
+  photoUrl: string | null;
+  onLogin: () => void;
+  onLogout: () => void;
 }

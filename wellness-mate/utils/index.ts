@@ -1,4 +1,5 @@
 import { Mealplan, Recipe } from "../interfaces";
+import { doc, setDoc, getFirestore } from "firebase/firestore"; // Firebase 9+ modular syntax
 export * from "./schema";
 
 export const parseJSONFields = (data: Recipe, fields: string[]): Recipe => {
@@ -109,10 +110,19 @@ export const extractStats = (mealplan: Mealplan) => {
   };
 };
 
-export const apiUrl =
+export const recipeApiUrl =
   process.env.NODE_ENV === "production"
     ? "https://health-insights-backend.onrender.com"
     : "http://127.0.0.1:5000";
+
+export const isMobile = () => {
+  return (
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent,
+    ) ||
+    (window.innerWidth <= 800 && window.innerHeight <= 600)
+  );
+};
 
 export const valueToColor = (
   value: number,

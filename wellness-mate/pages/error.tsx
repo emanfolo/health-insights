@@ -1,5 +1,4 @@
 import { Layout } from "../components";
-import "../app/global.css";
 
 const Error = () => {
   return (

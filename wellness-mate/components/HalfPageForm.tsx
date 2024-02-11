@@ -17,14 +17,14 @@ export const HalfPageForm = () => {
   };
 
   return (
-    <section className=" my-auto lg:w-1/2">
+    <section className=" my-auto ">
       <div className="p-8 flex flex-col justify-center gap-4 lg:p-14">
-        <div className="space-y-2">
+        <div className="space-y-2 ">
           <h1 className=" text-3xl  font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            Welcome to WellnessMate.
+            Personalize your wellness journey.
           </h1>
           <p className="max-w-[500px] text-gray-900 md:text-xl/relaxed  dark:text-gray-400">
-            Personalize your wellness journey.
+            Enter some food preferences
           </p>
         </div>
         <div className=" flex flex-col p-8 border rounded-lg shadow-md bg-white">
@@ -46,7 +46,7 @@ export const HalfPageForm = () => {
           >
             {({ values }) => {
               return (
-                <Form className="flex flex-col gap-4">
+                <Form className="flex flex-col gap-4 h-[400px]">
                   <div className=" flex flex-col">
                     <MultiValueInput
                       label="Enter up to five of your favourite foods"

@@ -1,15 +1,11 @@
-import { Example, HalfPageForm, Layout } from "../components";
-import "../app/global.css";
-import mealplan from "../utils/mealplanExample.json";
-import { apiUrl } from "../utils";
+import { HalfPageForm, Layout } from "../components";
 
 const IndexPage = () => (
   <Layout title="WellnessMate - Homepage">
     <div>
-      <div className=" flex flex-col pb-4 md:p-0">
-        <main className=" flex flex-col lg:flex-row">
+      <div className=" ">
+        <main className="flex justify-center">
           <HalfPageForm />
-          <Example mealplan={mealplan} />
         </main>
       </div>
     </div>

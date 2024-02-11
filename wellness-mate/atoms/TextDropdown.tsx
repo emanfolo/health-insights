@@ -7,20 +7,10 @@ export const TextDropdown = ({ title, children, className }) => {
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   return (
-    <div className={className}>
-      <div
-        onClick={toggleDropdown}
-        className="flex items-center gap-1 cursor-pointer w-fit"
-      >
-        <text className="font-bold">{title}</text>
-        <DownArrow />
-      </div>
-
-      {isOpen && (
-        <div className="flex flex-col p-2 mt-2 border rounded-lg bg-white ">
-          {children}
-        </div>
-      )}
+    <div className="collapse collapse-arrow bg-base-200">
+      <input type="checkbox" />
+      <div className="collapse-title text-xl font-medium">{title}</div>
+      <div className="collapse-content">{children}</div>
     </div>
   );
 };

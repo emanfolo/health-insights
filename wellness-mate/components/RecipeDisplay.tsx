@@ -35,8 +35,8 @@ export const RecipeDisplay = ({ recipe, recommended }: RecipeDisplayProps) => {
     <div className="flex flex-col py-10 px-10  w-screen min-h-screen items-center">
       <text className="font-bold text-2xl p-3">{name}</text>
 
-      <div className="w-full  h-full  flex flex-col justify-between gap-7 md:flex-row ">
-        <div className=" lg:w-3/4 flex flex-col md:flex-row border rounded-lg p-5 md:p-7  gap-7 shadow-lg bg-white">
+      <div className="w-full  h-full  flex flex-col justify-between gap-7 ">
+        <div className=" flex flex-col md:flex-row border rounded-lg p-5 md:p-7 lg:justify-evenly  gap-7 shadow-lg bg-white">
           <ImageSection
             name={name}
             description={description}
@@ -64,7 +64,7 @@ export const RecipeDisplay = ({ recipe, recommended }: RecipeDisplayProps) => {
         </div>
       </div>
       <FooterSection steps={steps} ingredients={ingredients} />
-      <div className=" lg:right-0 lg:absolute">
+      <div className=" ">
         <RecommendedSection recommended={recommended} />
       </div>
     </div>

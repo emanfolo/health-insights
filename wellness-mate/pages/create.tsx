@@ -1,5 +1,4 @@
 import { Layout } from "../components";
-import "../app/global.css";
 import { FullPageForm } from "../components";
 
 const Create = () => {

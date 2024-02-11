@@ -6,7 +6,7 @@ export const FooterSection = ({ steps, ingredients }) => {
       {/* Ingredients and instructions */}
       <div className="h-2/5 flex flex-col w-full p-6">
         <div className="flex flex-col gap-5">
-          <TextDropdown className="z-10  max-w-xl" title={"Ingredients"}>
+          <TextDropdown className="z-10  " title={"Ingredients"}>
             <div className="flex flex-col">
               {ingredients.map((value: string) => (
                 <text>{value}</text>
