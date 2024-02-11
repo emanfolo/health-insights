@@ -1,6 +1,5 @@
 import { MealplanDisplay, Layout } from "../components";
 import mealplan from "../utils/mealplanExample.json";
-import "../app/global.css";
 
 const Example = () => {
   return (

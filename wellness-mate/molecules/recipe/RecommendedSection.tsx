@@ -9,7 +9,7 @@ export const RecommendedSection = ({
       {/* // Similar recipes */}
       <div className="lg:p-6 pt-0 flex-col flex items-center ">
         <text className=" font-bold">Similar recipes</text>
-        <div className="flex flex-col md:flex-row lg:flex-col gap-3">
+        <div className="flex flex-col md:flex-row gap-3">
           {recommended.map((value, index) => (
             <MiniRecipeTile
               key={`${value.name}-${index}`}

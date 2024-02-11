@@ -1,4 +1,3 @@
-import "../app/global.css";
 import { MealplanDisplay, Layout } from "../components";
 import { useEffect, useState } from "react";
 import Link from "next/link";

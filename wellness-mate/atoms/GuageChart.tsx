@@ -48,7 +48,6 @@ export const GaugeChart = ({ value, min = 0, max = 100 }) => {
       .attr("d", arc)
       .attr("transform", `translate(${width / 2}, ${height - margin.bottom})`);
 
-    // console.log("scale", scale(value))
     // Append foreground arc
     svg
       .append("path")

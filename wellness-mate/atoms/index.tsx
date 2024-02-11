@@ -13,3 +13,6 @@ export * from "./TextDropdown";
 export * from "./StarRating";
 export * from "./RangeInput";
 export * from "./ToggleSwitch";
+export * from "./NavBarButton";
+export * from "./MiniRecipeCard";
+export * from "./Pagination";

@@ -1,7 +1,6 @@
-import "../app/global.css";
 import { ExploreDisplay, Layout } from "../components";
 import { Recipe } from "../interfaces";
-import { apiUrl } from "../utils";
+import { recipeApiUrl } from "../utils";
 
 const Explore = ({ recipes }) => {
   return (
@@ -17,7 +16,7 @@ const Explore = ({ recipes }) => {
 export default Explore;
 
 export const getServerSideProps = async (context) => {
-  const requestUrl = `${apiUrl}/explore`;
+  const requestUrl = `${recipeApiUrl}/explore`;
   try {
     const res = await fetch(requestUrl, {
       method: "GET",
