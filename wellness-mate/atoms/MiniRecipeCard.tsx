@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { MiniRecipeTileProps } from "../interfaces";
 
 export const MiniRecipeCard = ({
@@ -17,7 +18,7 @@ export const MiniRecipeCard = ({
       className=" card w-80 bg-base-100 shadow-xl text-black hover:no-underline hover:shadow-lg"
     >
       <figure>
-        <img src={image} alt={`image of ${name}`} />
+        <Image width={500} height={500} src={image} alt={`image of ${name}`} />
       </figure>
       <div className="card-body">
         <h2 className="card-title">{name}</h2>

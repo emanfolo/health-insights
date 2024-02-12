@@ -224,4 +224,5 @@ export interface NavbarButtonProps {
   photoUrl: string | null;
   onLogin: () => void;
   onLogout: () => void;
+  onDeleteAccount: () => void;
 }

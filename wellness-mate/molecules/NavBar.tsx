@@ -1,8 +1,7 @@
 import Link from "next/link";
-
 import { NavBarButton } from "../atoms";
 import { useAuth } from "../contexts/AuthContext";
-import { handleLogin, handleLogout } from "../utils/auth";
+import { deleteAccount, handleLogin, handleLogout } from "../utils/auth";
 
 export const NavBar = () => {
   const { user, loggedIn } = useAuth();
@@ -67,6 +66,7 @@ export const NavBar = () => {
         loggedIn={loggedIn}
         onLogin={handleLogin}
         onLogout={handleLogout}
+        onDeleteAccount={deleteAccount}
       />
     </div>
   );
