@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { GithubIcon } from "../icons";
 import { NavbarButtonProps } from "../interfaces";
 
@@ -7,7 +8,9 @@ export const NavBarButton = ({
   photoUrl,
   onLogin,
   onLogout,
+  onDeleteAccount,
 }: NavbarButtonProps) => {
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   return (
     <div className="navbar-end mt-3">
       {loggedIn ? (
@@ -36,7 +39,31 @@ export const NavBarButton = ({
             <li>
               <button onClick={onLogout}>Logout</button>
             </li>
+            <li>
+              <button onClick={() => setShowDeleteModal(true)}>
+                Delete Account
+              </button>
+            </li>
           </ul>
+          {showDeleteModal && (
+            <dialog className="modal opacity-100 modal-open">
+              <div className="modal-box">
+                <button
+                  className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                  onClick={() => setShowDeleteModal(false)}
+                >
+                  ✕
+                </button>
+                <h3 className="font-bold text-lg">Delete account</h3>
+                <p className="py-5">
+                  Are you sure you want to unlink your Github account?
+                </p>
+                <button onClick={onDeleteAccount} className="btn">
+                  Delete account
+                </button>
+              </div>
+            </dialog>
+          )}
         </div>
       ) : (
         <>

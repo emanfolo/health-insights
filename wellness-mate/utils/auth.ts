@@ -1,12 +1,12 @@
 import {
-  getAuth,
   signInWithPopup,
   GithubAuthProvider,
   signOut,
   signInWithRedirect,
+  deleteUser,
 } from "firebase/auth";
-import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
-import { app, db, auth } from "./firebase";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { db, auth } from "./firebase";
 import { isMobile } from ".";
 
 const handleUserProfile = async (user) => {
@@ -62,5 +62,44 @@ export const handleLogout = async () => {
     // Perform any cleanup or redirect
   } catch (error) {
     console.error("Logout failed", error);
+  }
+};
+
+export const deleteAccount = async () => {
+  const user = auth.currentUser;
+
+  if (!user) {
+    console.log("No user is currently signed in.");
+    return;
+  }
+
+  const reAuthenticateAndDelete = async () => {
+    const provider = new GithubAuthProvider();
+    try {
+      // Re-authenticate the user
+      await signInWithPopup(auth, provider);
+      // Attempt to delete the user again
+      await deleteUser(user);
+      console.log("User account deleted successfully after re-authentication.");
+      // Redirect or perform additional cleanup as needed
+    } catch (error) {
+      console.error("Failed to re-authenticate and delete user account", error);
+      // Handle further errors, such as failing to re-authenticate
+    }
+  };
+
+  try {
+    await deleteUser(user);
+    console.log("User account deleted successfully.");
+  } catch (error) {
+    console.error("Failed to delete user account", error);
+    if (error.code === "auth/requires-recent-login") {
+      console.log(
+        "Re-authentication required. Prompting user to sign in again.",
+      );
+      await reAuthenticateAndDelete();
+    } else {
+      // Handle other errors appropriately
+    }
   }
 };
