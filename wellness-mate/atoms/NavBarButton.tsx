@@ -58,7 +58,13 @@ export const NavBarButton = ({
                 <p className="py-5">
                   Are you sure you want to unlink your Github account?
                 </p>
-                <button onClick={onDeleteAccount} className="btn">
+                <button
+                  onClick={() => {
+                    onDeleteAccount();
+                    setShowDeleteModal(false);
+                  }}
+                  className="btn"
+                >
                   Delete account
                 </button>
               </div>
