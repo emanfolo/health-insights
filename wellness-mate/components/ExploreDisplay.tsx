@@ -10,9 +10,15 @@ import { ExploreDisplayProps, Recipe } from "../interfaces";
 import { debounce } from "lodash";
 import { recipeApiUrl } from "../utils";
 
-export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
-  const [data, setData] = useState(recipes);
-  const [loading, setLoading] = useState(false);
+export const ExploreDisplay = () => {
+  const [data, setData] = useState<Recipe[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(21); // or any other default value
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalResults, setTotalResults] = useState(0);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [prepTimeBoundary, setPrepTimeBoundary] = useState(100);
   const [cookTimeBoundary, setCookTimeBoundary] = useState(100);
@@ -21,8 +27,7 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
   const [nutriScoreBoundary, setNutriScoreBoundary] = useState(70);
 
   const fetchData = async () => {
-    const requestUrl = `${recipeApiUrl}/search`;
-
+    const requestUrl = `${recipeApiUrl}/search?page=${currentPage}&limit=${itemsPerPage}`;
     const res = await fetch(requestUrl, {
       method: "POST",
       headers: {
@@ -41,23 +46,19 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
     if (!res.ok) {
       throw new Error(`Error: ${res.status}`);
     }
-    const recipes: Recipe[] = await res.json();
+    const response = await res.json();
+    console.log(response);
+    const recipes: Recipe[] = response.recipes;
     setData(recipes);
+    setTotalPages(response.totalPages);
+    setTotalResults(response.totalResults);
+    setLoading(false);
   };
 
-  const debouncedFetchData = debounce(fetchData, 2000);
+  const debouncedFetchData = debounce(fetchData, 500);
 
   useEffect(() => {
-    setLoading(true);
-    debouncedFetchData(
-      searchTerm,
-      proteinBoundary,
-      prepTimeBoundary,
-      cookTimeBoundary,
-      calorieBoundary,
-      nutriScoreBoundary,
-    );
-    setLoading(false);
+    debouncedFetchData();
   }, [
     searchTerm,
     proteinBoundary,
@@ -65,6 +66,7 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
     cookTimeBoundary,
     calorieBoundary,
     nutriScoreBoundary,
+    currentPage,
   ]);
 
   return (
@@ -80,7 +82,8 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
             />
             <button>Search</button>
           </div>
-          <div className="flex flex-col md:flex-row p-4">
+
+          <div className="p-4 grid md:grid-cols-5">
             <div className="flex flex-col w-[300px] md:w-[180px]">
               <text className="text-xs">Max Calories</text>
               <RangeInput
@@ -144,7 +147,7 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
           </div>
 
           <div>
-            <div className="flex justify-center items-center">
+            <div className="p-4">
               <div className=" w-fit flex flex-wrap justify-center gap-4 py-4">
                 {data.map((recipe) => (
                   <MiniRecipeCard
@@ -158,14 +161,20 @@ export const ExploreDisplay = ({ recipes }: ExploreDisplayProps) => {
                     proteinScore={recipe.protein_score}
                   />
                 ))}
-                {data.length === 0 && (
+                {data.length === 0 && !loading && (
                   <text className="flex justify-center items-center text-3xl font-light my-32">
                     No results found
                   </text>
                 )}
               </div>
             </div>
-            {/* <Pagination /> */}
+            <div className="flex justify-center pb-4">
+              <Pagination
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalPages={totalPages}
+              />
+            </div>
           </div>
         </div>
       )}
