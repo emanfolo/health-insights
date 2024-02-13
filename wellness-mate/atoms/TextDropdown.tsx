@@ -1,11 +1,6 @@
-import React, { useState } from "react";
-import { DownArrow } from "../icons";
+import React from "react";
 
 export const TextDropdown = ({ title, children, className }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDropdown = () => setIsOpen(!isOpen);
-
   return (
     <div className="collapse collapse-arrow bg-base-200">
       <input type="checkbox" />

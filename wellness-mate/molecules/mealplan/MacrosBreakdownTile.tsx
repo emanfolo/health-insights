@@ -20,7 +20,7 @@ export const MacrosBreakdownTile = ({
   ];
   return (
     <div className=" border rounded-lg  h-full  w-full shadow-md flex flex-col p-4 bg-white">
-      <div className="flex flex-col justify-between items-center p-5 gap-8 md:flex-row">
+      <div className="flex flex-col justify-between items-center p-5 gap-8 md:flex-row md:items-start">
         <div className="flex flex-col  w-3/4">
           <text className="font-medium text-sm">Nutritional breakdown</text>
           <div className=" text-sm">

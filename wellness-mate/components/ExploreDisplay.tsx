@@ -148,7 +148,7 @@ export const ExploreDisplay = () => {
 
           <div>
             <div className="p-4">
-              <div className=" w-fit flex flex-wrap justify-center gap-4 py-4">
+              <div className=" w-fit grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3 justify-center gap-5 py-4">
                 {data.map((recipe) => (
                   <MiniRecipeCard
                     name={recipe.name}

@@ -180,6 +180,8 @@ export interface RecipeDisplayProps {
   recommended: MiniRecipeTileProps[];
 }
 
+export interface RecipeCardProps extends ImageSectionProps, InfoSectionProps {}
+
 export interface ImageSectionProps {
   image: string;
   name: string;
