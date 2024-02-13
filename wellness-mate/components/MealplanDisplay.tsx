@@ -45,8 +45,8 @@ export const MealplanDisplay = ({ mealplan }: MealplanDisplayProps) => {
   };
 
   return (
-    <div>
-      <div className="w-screen h-full">
+    <div className="lg:flex lg:justify-center lg:items-center">
+      <div className=" h-full w-full lg:max-w-7xl xl:max-w-8xl">
         <text className=" text-2xl flex justify-center md:text-3xl font-semibold">
           Mealplan Breakdown
         </text>

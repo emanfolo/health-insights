@@ -94,7 +94,7 @@ export const PieChart = ({ data }: PieChartProps) => {
   };
 
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-3 justify-center">
       <div ref={pieChartRef} />
       <div className=" flex gap-2 flex-col justify-center">
         {data.map((d, i) => (

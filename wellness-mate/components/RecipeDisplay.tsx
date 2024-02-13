@@ -1,9 +1,8 @@
 import { RecipeDisplayProps } from "../interfaces";
 import {
-  ImageSection,
-  InfoSection,
   RecommendedSection,
   FooterSection,
+  RecipeCard,
 } from "../molecules";
 
 export const RecipeDisplay = ({ recipe, recommended }: RecipeDisplayProps) => {
@@ -33,19 +32,17 @@ export const RecipeDisplay = ({ recipe, recommended }: RecipeDisplayProps) => {
 
   return (
     <div className="flex flex-col py-10 px-10  w-screen min-h-screen items-center">
-      <text className="font-bold text-2xl p-3">{name}</text>
+      <div className=" flex flex-col lg:flex-row p-3 justify-center">
+        <div className=" flex flex-col items-center gap-4">
+          <text className="font-bold text-2xl ">{name}</text>
 
-      <div className="w-full  h-full  flex flex-col justify-between gap-7 ">
-        <div className=" flex flex-col md:flex-row border rounded-lg p-5 md:p-7 lg:justify-evenly  gap-7 shadow-lg bg-white">
-          <ImageSection
+          <RecipeCard
             name={name}
             description={description}
             image={image}
             rating={ratings}
             voteCount={vote_count}
             url={url}
-          />
-          <InfoSection
             difficulty={difficult}
             dishType={dish_type}
             prepTime={times.Preparation}
@@ -62,11 +59,22 @@ export const RecipeDisplay = ({ recipe, recommended }: RecipeDisplayProps) => {
             proteinScore={protein_score}
           />
         </div>
+        <div className="lg:w-1/2 pt-6">
+          <FooterSection
+            steps={steps}
+            ingredients={ingredients}
+            kcal={kcal}
+            fibre={fibre}
+            sugars={sugars}
+            carbs={carbs}
+            fat={fat}
+            protein={protein}
+            salt={salt}
+            saturates={saturates}
+          />
+        </div>
       </div>
-      <FooterSection steps={steps} ingredients={ingredients} />
-      <div className=" ">
-        <RecommendedSection recommended={recommended} />
-      </div>
+      <RecommendedSection recommended={recommended} />
     </div>
   );
 };
