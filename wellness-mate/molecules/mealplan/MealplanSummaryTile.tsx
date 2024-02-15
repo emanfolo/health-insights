@@ -25,7 +25,7 @@ export const MealplanSummaryTile = ({
         <text>Summary </text>
       </div>
       <div className="flex">
-        <div className=" pr-3 hidden sm:flex  sticky flex-col gap-3  ml-auto">
+        <div className=" pr-3 hidden sm:flex  sticky flex-col gap-3 ">
           <text className="text-xs flex flex-col justify-center items-center font-bold">
             Average scores
           </text>
