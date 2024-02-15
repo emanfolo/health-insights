@@ -1,8 +1,4 @@
-import {
-  NutritionLabel,
-  PieChart,
-  TextDropdown,
-} from "../../atoms";
+import { NutritionLabel, PieChart, TextDropdown } from "../../atoms";
 
 export const FooterSection = ({
   steps,
@@ -47,14 +43,19 @@ export const FooterSection = ({
           </TextDropdown>
           <TextDropdown className="z-10  " title={"Ingredients"}>
             <div className="flex flex-col">
-              {ingredients.map((value: string) => (
-                <text>{value}</text>
+              {ingredients.map((value: string, index: number) => (
+                <text key={`ingredient-${index}`}>{value}</text>
               ))}
             </div>
           </TextDropdown>
           <TextDropdown className="z-10" title={"Steps"}>
-            {steps.map((value: string) => (
-              <text className="flex flex-col pt-2 z-10">{value}</text>
+            {steps.map((value: string, index: number) => (
+              <text
+                key={`ingredient-${index}`}
+                className="flex flex-col pt-2 z-10"
+              >
+                {value}
+              </text>
             ))}
           </TextDropdown>
         </div>

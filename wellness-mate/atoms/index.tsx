@@ -16,3 +16,5 @@ export * from "./ToggleSwitch";
 export * from "./NavBarButton";
 export * from "./MiniRecipeCard";
 export * from "./Pagination";
+export * from "./LikeButton";
+export * from "./SaveButton";
