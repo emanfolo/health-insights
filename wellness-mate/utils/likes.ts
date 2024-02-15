@@ -65,15 +65,14 @@ export const recipeIsLiked = async (recipeId: string) => {
   }
 };
 
-
 export const fetchUserLikedRecipes = async () => {
-  const getUserLikedRecipes = httpsCallable(functions, 'getUserLikedRecipes');
-  
+  const getUserLikedRecipes = httpsCallable(functions, "getUserLikedRecipes");
+
   try {
-      const result = await getUserLikedRecipes();
-      return result.data; 
+    const result = await getUserLikedRecipes();
+    return result.data;
   } catch (error) {
-      console.error('Error fetching liked recipes:', error);
-      throw new Error('Failed to fetch liked recipes');
+    console.error("Error fetching liked recipes:", error);
+    throw new Error("Failed to fetch liked recipes");
   }
 };

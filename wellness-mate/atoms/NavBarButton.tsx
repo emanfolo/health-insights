@@ -37,7 +37,10 @@ export const NavBarButton = ({
           >
             <li className="menu-title">Options</li>
             <li>
-              <Link className="text-black hover:no-underline" href="/profile/recipes">
+              <Link
+                className="text-black hover:no-underline"
+                href="/profile/recipes"
+              >
                 Saved Recipes
               </Link>
             </li>

@@ -5,7 +5,7 @@ const IndexPage = () => (
     <div>
       <div className=" ">
         <main className="flex justify-center w-screen">
-            <LikedRecipesDisplay />
+          <LikedRecipesDisplay />
         </main>
       </div>
     </div>
