@@ -1,9 +1,5 @@
 import { RecipeDisplayProps } from "../interfaces";
-import {
-  RecommendedSection,
-  FooterSection,
-  RecipeCard,
-} from "../molecules";
+import { RecommendedSection, FooterSection, RecipeCard } from "../molecules";
 
 export const RecipeDisplay = ({ recipe, recommended }: RecipeDisplayProps) => {
   const {
@@ -28,6 +24,7 @@ export const RecipeDisplay = ({ recipe, recommended }: RecipeDisplayProps) => {
     times,
     description,
     url,
+    id,
   } = recipe;
 
   return (
@@ -57,6 +54,7 @@ export const RecipeDisplay = ({ recipe, recommended }: RecipeDisplayProps) => {
             saturates={saturates}
             nutritionalScore={nutritional_score}
             proteinScore={protein_score}
+            id={id}
           />
         </div>
         <div className="lg:w-1/2 pt-6">

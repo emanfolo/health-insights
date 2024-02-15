@@ -1,4 +1,6 @@
-import { MealplanDisplayProps } from "../interfaces";
+import { useCallback, useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { Mealplan, MealplanDisplayProps } from "../interfaces";
 import {
   TopRecipeTile,
   MealplanSummaryTile,
@@ -6,8 +8,12 @@ import {
   MacrosBreakdownTile,
 } from "../molecules";
 import { extractStats } from "../utils";
+import { SaveButton } from "../atoms";
+import { saveMealplan, unsaveMealplan } from "../utils/saves";
 
 export const MealplanDisplay = ({ mealplan }: MealplanDisplayProps) => {
+  const [signInModalOpen, setSignInModalOpen] = useState(false);
+  const [mealplanSaved, setMealplanSaved] = useState(false);
   const {
     highestNutritionalScoreObj,
     averageNutritionalScore,
@@ -44,12 +50,45 @@ export const MealplanDisplay = ({ mealplan }: MealplanDisplayProps) => {
     averageProteinScore: averageProteinScore,
   };
 
+  const { user, loggedIn } = useAuth();
+
+  const handleSave = async () => {
+    if (loggedIn) {
+      if (!mealplanSaved) {
+        try {
+          await saveMealplan(mealplan);
+          setMealplanSaved(true);
+          console.log("Mealplan saved successfully");
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        // Handle already saved state, if needed
+      }
+    } else {
+      setSignInModalOpen(true);
+    }
+  };
+
+  // Save button disappears after you save it
+  // Then when you view mealplans from 'saved'/logged in section,
+  // it opens with save toggle. Show a loading state as well
+
   return (
     <div className="lg:flex lg:justify-center lg:items-center">
       <div className=" h-full w-full lg:max-w-7xl xl:max-w-8xl">
         <text className=" text-2xl flex justify-center md:text-3xl font-semibold">
           Mealplan Breakdown
         </text>
+        {/* <div className="flex justify-end pr-4">
+          {loggedIn && (
+            <SaveButton
+              saved={mealplanSaved}
+              onClick={handleSave}
+              context="generated"
+            />
+          )}
+        </div> */}
 
         <div className="    flex-col flex  lg:flex-row">
           <div className=" w-full p-4    ">
@@ -60,13 +99,6 @@ export const MealplanDisplay = ({ mealplan }: MealplanDisplayProps) => {
               nutritionalSummary={nutritionalSummary}
             />
           </div>
-          {/* <div className=" p-4 pt-0 lg:w-7/12 h-full ">
-            {highestNutritionalScoreObj && (
-              <TopRecipeTile
-                highestNutritionalScoreObj={highestNutritionalScoreObj}
-              />
-            )}
-          </div> */}
         </div>
 
         <div className="   h-3/5 flex  flex-col lg:flex-row">
