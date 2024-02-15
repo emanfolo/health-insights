@@ -24,7 +24,7 @@ export const HalfPageForm = () => {
             Personalize your wellness journey.
           </h1>
           <p className="max-w-[500px] text-gray-900 md:text-xl/relaxed  dark:text-gray-400">
-            Enter some food preferences
+            Enter your food preferences.
           </p>
         </div>
         <div className=" flex flex-col p-8 border rounded-lg shadow-md bg-white">

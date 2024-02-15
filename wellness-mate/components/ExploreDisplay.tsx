@@ -161,12 +161,12 @@ export const ExploreDisplay = () => {
                     proteinScore={recipe.protein_score}
                   />
                 ))}
-                {data.length === 0 && !loading && (
-                  <text className="flex justify-center items-center text-3xl font-light my-32">
-                    No results found
-                  </text>
-                )}
               </div>
+              {data.length === 0 && !loading && (
+                <text className="flex justify-center items-center text-3xl font-light my-32">
+                  No results found
+                </text>
+              )}
             </div>
             <div className="flex justify-center pb-4">
               <Pagination

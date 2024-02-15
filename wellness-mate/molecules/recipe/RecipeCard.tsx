@@ -1,8 +1,12 @@
+import { useCallback, useEffect, useState } from "react";
+import { debounce } from "lodash";
 import Link from "next/link";
 import { ExternalLink } from "../../icons";
 import { RecipeCardProps } from "../../interfaces";
 import Image from "next/image";
-import { GaugeChart, StarRating } from "../../atoms";
+import { GaugeChart, LikeButton, StarRating } from "../../atoms";
+import { useAuth } from "../../contexts/AuthContext";
+import { recipeIsLiked, likeRecipe, unlikeRecipe } from "../../utils/likes";
 
 export const RecipeCard = ({
   image,
@@ -16,9 +20,70 @@ export const RecipeCard = ({
   cookTime,
   nutritionalScore,
   proteinScore,
+  id,
 }: RecipeCardProps) => {
   const parseTimeCopy = (time: number) =>
     time === 0 ? "Instant" : `${time} mins`;
+
+  const { user, loggedIn } = useAuth();
+  const userId = user?.uid;
+  const [liked, setLiked] = useState(false);
+  const [signInModalOpen, setSignInModalOpen] = useState(false);
+
+  // Debounce the like and unlike functions
+  const debouncedLikeRecipe = useCallback(
+    debounce((recipeId: string) => likeRecipe(recipeId), 500),
+    [],
+  );
+  const debouncedUnlikeRecipe = useCallback(
+    debounce((recipeId: string) => unlikeRecipe(recipeId), 500),
+    [],
+  );
+
+  useEffect(() => {
+    const fetchLikeState = async () => {
+      if (userId) {
+        const isLiked = await recipeIsLiked(id);
+        setLiked(!!isLiked);
+      } else {
+        setLiked(false);
+      }
+    };
+
+    fetchLikeState()
+      .then((result) => {
+        // Read result of the Cloud Function.
+        const data = result;
+        console.log(data);
+      })
+      .catch((error) => {
+        // Getting the Error details.
+        const code = error.code;
+        const message = error.message;
+        const details = error.details;
+        console.log(code, message, details);
+        // ...
+      });
+  }, [id, userId]);
+
+  const handleLike = () => {
+    if (loggedIn) {
+      // Toggle the liked state immediately for responsive UI
+      setLiked((currentLiked) => {
+        // Based on the new state, call the appropriate function
+        if (!currentLiked) {
+          debouncedLikeRecipe(id);
+        } else {
+          debouncedUnlikeRecipe(id);
+        }
+        return !currentLiked;
+      });
+    } else {
+      setSignInModalOpen(true);
+      // ADD MODAL
+      console.log("Please sign up to access these features ");
+    }
+  };
 
   return (
     <div className=" card  bg-base-100 shadow-xl  lg:w-11/12 xl:w-full ">
@@ -35,6 +100,7 @@ export const RecipeCard = ({
             <ExternalLink size={16} />
           </Link>
           <StarRating rating={rating} voteCount={voteCount} />
+          {loggedIn && <LikeButton onClick={handleLike} liked={liked} />}
         </div>
 
         <div className="flex flex-col md:flex-row md:justify-between">
