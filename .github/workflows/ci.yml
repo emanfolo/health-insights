@@ -17,15 +17,16 @@ jobs:
       with:
         node-version: '18' # Specify the Node.js version
 
-    - name: Change directory to wellness-mate
-      run: cd wellness-mate
-
-    - name: Install dependencies
-      run: npm install
+    - name: Change directory to wellness-mate and install dependencies
+      run: |
+        cd wellness-mate
+        npm install
+    
+    - name: Install Playwright browsers
+      run: npx playwright install
       working-directory: ./wellness-mate
 
-
-    - name: Run Jest
+    - name: Run tests
       run: npm test
       working-directory: ./wellness-mate
 
