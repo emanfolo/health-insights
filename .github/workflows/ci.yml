@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18' # Specify the Node.js version
+
+    - name: Change directory to wellness-mate and install dependencies
+      run: |
+        cd wellness-mate
+        npm install
+    
+    - name: Install Playwright browsers
+      run: npx playwright install
+      working-directory: ./wellness-mate
+
+    - name: Run tests
+      run: npm test
+      working-directory: ./wellness-mate
+
+
+env:
+    TEST_URL: "https://wellnessmate.vercel.app/"
+      
