@@ -10,9 +10,9 @@ export const MiniRecipeTile = ({
 }: MiniRecipeTileProps) => {
   return (
     <Link href={`/recipe/${id}`} target="_blank" className="hover:no-underline">
-      <div className="flex flex-col  ">
+      <div className="flex flex-col">
         <div className="font-bold text-black min-h-[30px]"> {headline}</div>
-        <div className=" h-[250px] w-[250px] cursor-pointer border rounded-lg shadow-lg flex flex-col p-3 items-center justify-center hover:shadow-md gap-3  ">
+        <div className=" bg-base-100 h-[250px] w-[250px] cursor-pointer border rounded-lg shadow-lg flex flex-col p-3 items-center justify-center hover:shadow-md gap-3  ">
           <text className="h-[30px] font-semibold  text-xs  text-center text-black">
             {name}
           </text>

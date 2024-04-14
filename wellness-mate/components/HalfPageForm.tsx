@@ -12,7 +12,6 @@ export const HalfPageForm = () => {
 
   const handleFormContinue = (values: MealplanCreationParams) => {
     localStorage.setItem("formData", JSON.stringify(values));
-    console.log("Data saved to localStorage:", values);
     router.push("/create");
   };
 

@@ -21,7 +21,6 @@ const handleUserProfile = async (user) => {
         displayName: user.displayName,
         photoURL: user.photoURL,
       });
-      console.log("User profile created for:", user.displayName);
     }
   } catch (error) {
     console.error("Error handling user profile:", error);
@@ -59,7 +58,6 @@ export const handleLogout = async () => {
   try {
     await signOut(auth);
     console.log("Logout successful");
-    // Perform any cleanup or redirect
   } catch (error) {
     console.error("Logout failed", error);
   }

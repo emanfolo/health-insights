@@ -47,7 +47,6 @@ export const ExploreDisplay = () => {
       throw new Error(`Error: ${res.status}`);
     }
     const response = await res.json();
-    console.log(response);
     const recipes: Recipe[] = response.recipes;
     setData(recipes);
     setTotalPages(response.totalPages);
