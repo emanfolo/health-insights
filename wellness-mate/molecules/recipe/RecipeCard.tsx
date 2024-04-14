@@ -52,25 +52,18 @@ export const RecipeCard = ({
 
     fetchLikeState()
       .then((result) => {
-        // Read result of the Cloud Function.
         const data = result;
-        console.log(data);
       })
       .catch((error) => {
-        // Getting the Error details.
         const code = error.code;
         const message = error.message;
         const details = error.details;
-        console.log(code, message, details);
-        // ...
       });
   }, [id, userId]);
 
   const handleLike = () => {
     if (loggedIn) {
-      // Toggle the liked state immediately for responsive UI
       setLiked((currentLiked) => {
-        // Based on the new state, call the appropriate function
         if (!currentLiked) {
           debouncedLikeRecipe(id);
         } else {
